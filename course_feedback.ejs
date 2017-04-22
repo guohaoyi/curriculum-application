@@ -1,0 +1,267 @@
+<html>
+<title> Course Page</title>
+<link href="/example.css" rel="stylesheet" type="text/css">
+<h1>
+	<%= course %>
+ 
+
+</h1>
+<script src="/lib/jquery-3.1.1.min.js"></script>
+<script>
+        function generateButtons(json)
+        {
+            $.ajax({url: "/skillList", success: function(result){
+                ;
+                
+                $("#div1").html(result);
+
+            for (var i = 0; i < result.length ; i ++)
+            {
+            var radioButton = $('<div id = '+result[i].skill+'>'+result[i].skill +'</div>') ;
+                
+                radioButton.appendTo("#SkillList");
+            }
+    }});
+          
+        }
+       
+    </script>
+<p> Course Description: Here's the description</p>
+
+<div class="parent">
+  <div class="wrapper">
+    <p> Pick the three skills that were most valuable in the course: </p>
+    <div id="SkillList" class="container"> </div>
+    <p> Skill 1: </p>
+    <div id="VeryHelpful" class="container" width="125px" height="150px"></div>
+    <p> Skill 2: </p>
+    <div id="MostlyHelpful" class="container" width="125px" height="150px"></div>
+    <p> Skill 3: </p>
+    <div id="Helpful" class="container" width="125px" height="150px"></div>
+    </div>
+  </div>
+<div>
+    <div id="Skill1Score" style="display:none;"> Rate Skill 1 Score:  <input  id="score1"type="range"   min="1" max="7"> </div>
+      <div id="Skill2Score" style="display:none;"> Rate Skill 2 Score: <input id="score2"type="range" min="1" max="7" ></div>
+        <div id="Skill3Score" style="display:none;"> Rate Skill 3 Score: <input id="score3"type="range" min="1" max="7"></div>
+</div>
+<button id="myButton"> Submit</button>
+<script src="/lib/dragula.js"> </script>
+<script>
+  dragula([document.getElementById("SkillList"), document.getElementById("VeryHelpful")],{
+copy: function(el,source)
+{
+  return source===document.getElementById("SkillList");},
+  accepts: function(el, target)
+{
+ 
+  return target !== document.getElementById("SkillList");
+},
+  
+  removeOnSpill: function()
+{
+  $('#Skill1Score').toggle();
+  return true;
+}
+}).on('drop', function(el, target)
+  {
+  var a = $("#MostlyHelpful").children().has("div").prevObject;
+  var b = $("#Helpful").children().has("div").prevObject;
+  var aboolean=false;
+  var bboolean = false;
+  for (var i = 0; i < a.length; i++)
+		            {
+		            if(a[i].id==el.id)
+		            {
+		            aboolean = true;
+		            }
+		            }
+		            for (var j = 0; j < b.length; j++)
+						  {
+						  if (b[j].id == el.id)
+						  {
+						  bboolean = true;
+}
+}
+ if ((aboolean == true) ||(bboolean==true))
+{
+el.remove();
+}
+ else{
+console.log("adding");
+
+						  var len = $('#VeryHelpful').children().length;
+  if ((len>1)&&(target.id=="VeryHelpful"))
+  {
+    
+    $('#VeryHelpful').children().remove();
+    $('#VeryHelpful').append(el);
+    $('#Skill1Score').toggle();
+    $('#Skill1Score').toggle();
+    }
+    else if (target.id == "VeryHelpful")
+    {
+    $('#Skill1Score').toggle();
+    }
+}
+})
+.on('drag', function(el,target)
+{
+    if (target.id=="VeryHelpful")
+    {
+    $("#Skill1Score").toggle();
+    }
+})
+;
+
+  dragula([document.getElementById("SkillList"), document.getElementById("MostlyHelpful")],{
+    copy: function(el,source)
+{
+    return source===document.getElementById("SkillList");},
+    accepts: function(el, target)
+{
+    
+    return target !== document.getElementById("SkillList");
+}, removeOnSpill:true})
+.on('drop',function(el,targ)
+{
+    var a = $("#VeryHelpful").children().has("div").prevObject;
+var b = $("#Helpful").children().has("div").prevObject;
+var aboolean = false;
+var bboolean = false;
+for (var i = 0; i < a.length; i++)
+{
+if(a[i].id==el.id)
+{
+aboolean=true;
+}
+}
+for (var j = 0; j < b.length; j++)
+{
+if (b[i].id==el.id)
+{
+bboolean=true;
+}
+}
+if ((aboolean==true)||(bboolean==true))
+{
+el.remove();
+}
+else{
+    var len = $('#MostlyHelpful').children().length;
+    if ((len> 1)&&(targ.id=="MostlyHelpful"))
+    {
+    console.log("here");
+    $('#MostlyHelpful').children().remove();
+    $('#MostlyHelpful').append(el);
+    $('#Skill2Score').toggle();
+    $('#Skill2Score').toggle();
+    }
+    else if (targ.id =="MostlyHelpful")
+    {
+    $('#Skill2Score').toggle();
+    }
+}
+})
+.on('drag',function(el,targ)
+{
+    if (targ.id=="MostlyHelpful")
+    {
+    $('#Skill2Score').toggle();
+    }
+})
+;
+  dragula([document.getElementById("SkillList"),document.getElementById("Helpful")],{
+    copy: function(el, source)
+    {
+    return source===document.getElementById("SkillList");
+    },
+    accepts: function(el,target)
+{
+    return target !== document.getElementById("SkillList");
+},
+    removeOnSpill:true
+})
+.on('drop',function(el,target)
+{
+    var a = $("#MostlyHelpful").children().has("div").prevObject;
+var b = $("#VeryHelpful").children().has("div").prevObject;
+var aboolean = false;
+var bboolean=false;
+for (var i = 0; i < a.length;i++)
+{
+if (a[i].id==el.id)
+{
+aboolean=true;
+}
+}
+for (var j = 0; j< b.length;j++)
+{
+if(b[j].id==el.id)
+{
+bboolean=true;
+}
+}
+if((aboolean==true)||(bboolean==true))
+{
+el.remove();
+}
+else{
+    var len = $("#Helpful").children().length;
+    if ((len > 1) && (target.id=="Helpful"))
+    {
+    $("#Helpful").children().remove();
+    $("#Helpful").append(el);
+    $("#Skill3Score").toggle();
+    $("#Skill3Score").toggle();
+    }
+    else if (target.id=="Helpful")
+    {
+    $("#Skill3Score").toggle();
+    }
+}
+    })
+.on("drag",function(el,target)
+{
+    if (target.id=="Helpful")
+{
+    $("#Skill3Score").toggle();
+}
+})
+;
+</script>
+<script>
+         $("#myButton").click(function()
+                            {
+	  var MostlyHelpful = $("#MostlyHelpful").children();
+	  var VeryHelpful = $("#VeryHelpful").children();
+	  var Helpful = $("#Helpful").children();
+	  
+	  var score1= $("#score1").val();
+	  var score2 = $("#score2").val();
+	  var score3 = $("#score3").val();
+	   var Skill1Array=[];
+	  var Skill2Array =[];
+	  var Skill3Array= [];
+	  var allArray =[];
+	  Skill1Array.push($(VeryHelpful[0]).text());
+	  Skill1Array.push(score1);
+	  Skill2Array.push($(MostlyHelpful[0]).text());
+	  Skill2Array.push(score2);
+	  Skill3Array.push($(Helpful[0]).text());
+	  Skill3Array.push(score3);
+	  allArray.push(Skill1Array);
+	  allArray.push(Skill2Array);
+	  allArray.push(Skill3Array);
+	  console.log(allArray);
+
+	  
+	 //$.post("/addFeedBack",{data:allArray,course: "PSY110"});
+	 //window.location.href = "/profile";
+        })
+        $.get('/skillList',function(data,status){
+            //console.log(data);
+        })
+        generateButtons();
+    </script>
+</html>

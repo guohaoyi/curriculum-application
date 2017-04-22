@@ -1,0 +1,7 @@
+# Dependency directory
+node_modules
+texts
+.vscode
+try_things
+nohup.out
+*~

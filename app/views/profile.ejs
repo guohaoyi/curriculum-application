@@ -1,0 +1,66 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+
+<% var title = "Your Profile"; %>
+<%- include partials/header.ejs %>
+
+<div class="wrapper" ng-app="userInfo" 
+	 ng-controller="profileCtrl" 
+	 > 
+<div class="userInfo aside">
+  <div  onclick="user_toggle()"
+	class="well w3-closenav w3-right w3-xlarge"> 
+    <strong> See your user info </strong>
+<div  id="userInfo">
+<!--
+      <strong> Name: </strong>  First Name, Last Name<br />
+      <strong> Graduation Date: </strong> Year <br />
+      <strong> Majors: </strong> <br />
+      <strong> Minors: </strong> <br />
+      <br />
+    -->  
+      
+      <div ng-view></div>
+
+
+
+      <!--<h3>Skills:</h3>
+	  <table>
+	    <tr ng-repeat=" x in skills">
+	      <td>skill: {{x.skill}}&nbsp&nbsp&nbsp</td>
+	      <td>score: {{x.score}}&nbsp&nbsp&nbsp</td>
+	    </tr>
+	  </table>-->
+    </div>
+  </div>
+</div>  <!-- aside -->
+
+<div id="RadarChart">
+  <div id="semester info"></div>
+  <div id="chart"></div>
+  <div id="skill_legend">
+  <span class="notice"> This graph is the summation of {{courses.length}} course(s)</span>
+  </div>
+
+</div>
+
+</div>
+
+
+
+
+<script src="/angular/controller/profile.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+
+<!-- scripts to show the radar charts, needs jquery loaded first -->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+<script src="/lib/radar_chart.js"></script> 
+<script src="/lib/radar_script.js"></script>
+<script src="/lib/profile_script.js"></script>
+
+
+
+<%- include partials/footer.ejs %>
+</html>

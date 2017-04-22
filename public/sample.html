@@ -1,0 +1,33 @@
+<html>
+  <script src="dragula.js"></script>
+  <link href="example.css" rel="stylesheet" type="text/css"> </link>
+  <title> Test Page </title>
+  <body>
+    <p> This is a test for the dragula </p>
+   <div class="parent">
+     
+    <div id="left" class="container">
+      
+      <div> Test 1</div>
+      <div>Test 2</div>
+      <div> Test 3</div>
+      <div> Test 4</div>
+    </div>
+    <p> Place the Associated area down here </p> 
+    <div id="right" class="container">
+      <div></div>
+    </div>
+  </div>
+   <script src="dragula.js"></script>
+  <script>
+    dragula([document.getElementById("left"), document.getElementById("right")], {
+    copy: function(el, source) {
+    return source === document.getElementById("left");
+    },
+    accepts: function(el, target){
+    return target !== document.getElementById("left");
+    }
+    });
+    </script>
+</body>
+</html>

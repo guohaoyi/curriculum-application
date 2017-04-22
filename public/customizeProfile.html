@@ -1,0 +1,39 @@
+<html>
+  <h1>Update Your Personal Information</h1>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+  <style>
+
+  </style>
+<body>
+        First Name: <input id="FirstName"type="text"><br/>
+	Last Name: <input id="LastName"type="text"><br/>
+	Graduation Year: <input id="GradYear"type="number" min="2014" max="2025"><br/>
+	Major1: <input id="Major1"type="text"><br/>
+	Major2: <input id="Major2"type="text"><br/>
+	Minor1: <input id="Minor1"type="text"><br/>
+	Minor2: <input id="Minor2"type="text"><br/><br/>
+	<input type="submit" value="Submit" onclick="goBack()">
+	<a href="/profile"><button > Return to Profile Page </button></a>
+</body>
+
+<script type="text/javascript">
+  function goBack()
+  {
+  //Will eventually send an http request to the database and upload all of this information
+  userInfo = [];
+  userInfo.push($("#FirstName").val());
+  userInfo.push($("#LastName").val());
+  userInfo.push($("#GradYear").val());
+  userInfo.push($("#Major1").val());
+  userInfo.push($("#Major2").val());
+  userInfo.push($("#Minor1").val());
+  userInfo.push($("#Minor2").val());
+  console.log(userInfo);
+  //userInfo is an array that contains all of the information taken from the form
+//So, it should be simple to send to the database
+    // window.history.back();
+  }
+  
+</script>
+
+</html>

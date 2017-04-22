@@ -1,0 +1,310 @@
+    <html>
+    <title> Course Page</title>
+    <link href="/example.css" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <script src="/lib/jquery-3.1.1.min.js"></script>
+    <script>
+      var feedbackSkills = 3;
+
+
+    function generateButtons(json)
+{
+    $.ajax({url: "/skillList", success: function(result){
+        
+        
+        //$("#div1").html(result);
+	
+        for (var i = 0; i < result.length ; i ++)
+	{
+	    var radioButton = $('<div class="selectableSkill" unselectable="on">' +
+				'<img class="skillIcon" src="'+result[i].skills_img+'" '+
+				      'title="'+result[i].skill +'" unselectable="on" '+
+				' \>'+
+				'</div>') ;
+	    radioButton.appendTo("#SkillList");
+	}
+	
+	/*  title on the images will automatically do the tool tips...
+	    Would be niced to do this so it is uniform...
+	var toolTip = $('<div class="tooltip"></div>');
+
+	toolTip.appendTo("body");
+/*	$(".skillIcon").each( function ()
+       {
+	   $(this).on("mouseover", function(event) 
+	  {
+	      toolTip.animate( {opacity:.9 },200)
+	      .text($(this).title) //I believe the error is here...
+	      .css("left",event.pageX+"px")
+	      .css("top",(event.pageY-28) +"px");
+	  })
+	  .on("mouseout",function()
+	  {
+	      toolTip.animate({opacity:0},500);
+	  });
+
+       });*/
+    } }); 
+}
+
+
+</script>
+
+<style>
+
+div.tooltip 
+{
+    position: absolute;
+    text-align: center;
+    width: 100px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.skillIcon
+{
+width:50px;
+height:50px;
+display:inline;
+
+}
+
+.skill > .selectableSkill
+{
+    margin: 0 auto;
+}
+
+.selectableSkill
+{
+display:inline;
+}
+
+.skillWrap
+{
+width:100%;
+overflow:auto;
+margin:15px;
+}
+
+.skill
+{
+width:100px;
+height:100px;
+float:left;
+margin-right: 15px;
+}
+
+.score
+{
+   width:70%;
+float:left;
+clear:right;
+}
+
+.right
+{
+    float:right;
+    width:40px;
+    text-align:right;
+    font-size:200%;
+
+}
+
+
+</style>
+
+<body>
+
+
+    <h1>
+    <%= course %>
+    </h1>
+    <div class="parent">
+    <div class="wrapper">
+    <p> Drag the three skills that you gained most from this course: </p>
+    
+    <div id="SkillList" class="container"> </div>
+
+
+<p>  Drag one skill to each box </p>
+
+   <div id="skillInput">
+     </div>
+
+   <script>
+(function(numSkills)
+{
+   var list = document.getElementById("skillInput");
+   var i;
+   for(i =0; i < numSkills;i++)
+   {
+      var wrap = document.createElement("div");
+      wrap.className="skillWrap";
+      
+      //Insert a Skill in the grey box:</td> </tr>
+      var cont = document.createElement("div");
+      cont.id = "skill"+i; 
+      cont.className = "container skill";
+   		  
+      var score = document.createElement("div");
+      score.id = "skill"+i+"Score";
+      score.className = "score" 
+      score.innerHTML = '<span> How much of this skill did you learn? </span>'+
+	   '<br> A Little (1) <input id="score'+i+
+	   '" type="range" value="1" min="1" max="7" '+
+	   ' style="display:inline-block; vertical-align: middle; width: 60%"'+
+	   ' onchange="updateSliderVal(this.value,\'score'+i+'Val\');"> A Lot (7) '+
+	   '<div id="score'+i+'Val" class="right">1</div>'
+;
+      
+      wrap.appendChild(cont);
+      wrap.appendChild(score);
+      
+      list.appendChild(wrap);
+   }
+
+
+})(feedbackSkills);
+
+var updateSliderVal = function(val,target)
+{
+    document.getElementById(target).textContent=val;
+};
+
+   </script>
+
+
+
+    </div>
+
+    <button id="myButton"> Submit</button>
+    <button onClick="goBack()"> Go Back to Profile </button>
+
+    </div>
+    <script src="/lib/dragula.js"> </script>
+    <script>
+    function goBack()
+{
+    window.history.back();
+}
+
+//put into function to avoid namespace leaks
+var dragables = (function()
+{
+    var i;
+    var skills = document.getElementsByClassName("skill"); 
+    var d = [document.getElementById("SkillList")]
+    for(i = 0;i < skills.length ; i++)
+    {
+	d.push(skills[i]);
+    }
+    return d;
+})();
+
+dragula(dragables,
+	{
+	    copy: function(el,source)
+	    {
+		return source===document.getElementById("SkillList");},
+	    accepts: function(el, target)
+	    {
+		
+		return target !== document.getElementById("SkillList");
+	    },
+	    removeOnSpill: function()
+	    {
+                return target !== document.getElementById("SkillList");
+	    }
+	})
+    .on('drop', function(el, target)
+    {
+            onDrop(el,target);
+    })
+    .on('drag', function(el,target)
+	{
+            if( target.classList.contains("skill"))
+            {
+		  $(target).next().hide();
+	    }
+	})
+    .on('cancel',function(el,target)
+	{
+            if( target && target.classList.contains("skill"))
+            {
+		  $(target).next().show();
+	    }
+	})
+;
+
+
+
+var onDrop = function(el,target)
+{
+    //find if there is a copy
+    var selected = $(".skill  .skillIcon"); //get all skills
+
+    var copies = 0;     //one will be us, more than one is bad
+    var i;
+
+    var title = $(el).find("img")[0].title;
+
+    for(i=0; i < selected.length ; i++)
+    {
+
+	if (selected[i].title == title) { copies++ };
+    }
+    if(copies > 1)
+    {
+      
+	el.remove(); //remove yourself --don't allow it to go on..
+        //should give alert, android style toast
+    }
+    else{  //ready to update
+        var scorer = $(target).next();
+	scorer.show();
+	  
+        scorer.find("span").
+		  text("How much " + title + " did you learn in this course?");
+
+        //only allow one child
+        $(target).children().remove();
+        target.appendChild(el);
+    }
+
+
+
+}
+
+
+</script>
+    <script>
+    $("#myButton").click(function()
+      {
+	  
+	  var allArray =[];
+	  
+	  var i;
+	  for(i=0;i<feedbackSkills;i++)
+          {
+	      allArray.push( [ $("#skill"+i).find('img')[0].title || "",
+			       $("#score"+i).val()]);
+	  } 
+	  console.log(allArray);
+
+	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
+	  window.location.href = "/courses/<%= course %>";
+
+      })
+$.get('/skillList',function(data,status){
+    console.log(data);
+})
+generateButtons();
+</script>
+</body>
+</html>

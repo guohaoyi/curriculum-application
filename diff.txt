@@ -1,0 +1,644 @@
+diff --git a/app/routes/general.server.routes.js b/app/routes/general.server.routes.js
+index c623a08..9f23945 100644
+--- a/app/routes/general.server.routes.js
++++ b/app/routes/general.server.routes.js
+@@ -29,4 +29,4 @@ function isLoggedIn(req, res, next) {
+ 
+     // if they aren't redirect them to the home page
+     res.redirect('/');
+-}
++}
+diff --git a/app/views/course_browser.ejs b/app/views/course_browser.ejs
+index 56f2398..b0f2bc8 100644
+--- a/app/views/course_browser.ejs
++++ b/app/views/course_browser.ejs
+@@ -6,13 +6,11 @@
+ <script src="/lib/jquery.tablesorter.js"></script>
+ 
+ <body>
+-    <button id = "btn" type="butoon">Add those courses</button>
++    <p>HI</p>
+ </body>
+ <table id="myTable" class="tablesorter">
+     <thead>
+         <tr>
+-            <th>Selected</th>
+-            <th>time</th>
+             <th>Course Name</th>
+             <th>Course Title</th>
+             <th>Department</th>
+@@ -25,49 +23,18 @@
+     function generateTable()
+     {
+         $.ajax({url:"/courseList",success:function(result){
++            console.log(result);
+             
+             $(document).ready(function() {
+                 $("#myTable").append("<tbody>");
+                 for(var i = 0;i<result.length;i++){
+-                    $("#myTable").append("<tr id = '"+i+"'><td><input type = 'checkbox' name = "+"'c"+i+"'>"+"</td><td><select disabled name='select0'></select><select disabled name = 'select1'><option value = 'Spring'>Spring</option><option value = 'Fall'>Fall</option><option value = 'Winter'>Winter</option></select></td><td><a href = /courses/"+result[i].course_name+">"+result[i].course_name+"</td></a><td>"+result[i].course_title+"</td><td>"+result[i].department+"</td></tr>");
++                    $("#myTable").append("<tr><td><a href = /courses/"+result[i].course_name+">"+result[i].course_name+"</td></a><td>"+result[i].course_title+"</td><td>"+result[i].department+"</td></tr>");
+                 }
+                 $("#myTable").append("</tbody>"); 
+-                var max = new Date().getFullYear(),
+-                min = max-6,
+-                select = document.getElementsByName('select0');
+-                console.log(select);
+-                for (var j = 0; j < select.length; j++){
+-                for (var i = min; i<=max; i++){
+-                    var opt = document.createElement('option');
+-                    opt.value = i;
+-                    opt.innerHTML = i;
+-                    select[j].appendChild(opt);
+-                }}
+-                $(":checkbox").change(function(){
+-                    
+-                    if(this.checked){
+-                        $(this).closest('td').next("td").find('select').prop('disabled',false);
+-                    }
+-                    else{
+-                        $(this).closest('td').next("td").find('select').prop('disabled',true);
+-                    }
+-                })
+                 $("#myTable").tablesorter(); 
+             });
+         }})
+     }
+-
+-    function addCourses(){
+-        var selected = [];
+-        $(':checkbox:checked').each(function(){
+-            //$(this).closest('tr').css("background-color","red");
+-            selected.push($(this).closest('tr').attr('id'));
+-        })
+-        console.log(selected);
+-    }
+-    $("#btn").click(function(){
+-        addCourses();
+-    })
+     generateTable();
+ </script>
+ 
+diff --git a/app/views/course_feedback.ejs b/app/views/course_feedback.ejs
+index 7b33494..4d1bbdd 100644
+--- a/app/views/course_feedback.ejs
++++ b/app/views/course_feedback.ejs
+@@ -52,14 +52,12 @@
+ 	 var mostlyHelpfulArray = [];
+ 	 var HelpfulArray=[];
+ 	 var allArray = [];
+-
+-	 /*<!--allArray is a 2D array of the arrays above.
+-	     It has the form: [['Mostly Helpful Skills'],['Very Helpful Skills'], ['Helpful Skills']]
+-	     This function will go through each of the divs and append the skills to each array. Then, it will push each array into allArray.
+-	     With this, you should be able to send all the information properly to the database.
+-	     Scoring each category is not determined yet. 
+-		-->*/
+-
++	 //allArray is a 2D array of the arrays above.
++	   //  It has the form: [['Mostly Helpful Skills'],['Very Helpful Skills'], ['Helpful Skills']]
++	     //This function will go through each of the divs and append the skills to each array. Then, it will push each array into allArray.
++	     //With this, you should be able to send all the information properly to the database.
++	     //Scoring each category is not determined yet. 
++	  
+ 	 console.log("These skills are Very Helpful:");
+ 	 for (var i = 0; i < veryHelpful.length; i++)
+ 			     {
+diff --git a/app/views/profile.ejs b/app/views/profile.ejs
+index 6fa76cb..0e44d93 100644
+--- a/app/views/profile.ejs
++++ b/app/views/profile.ejs
+@@ -38,7 +38,7 @@
+ 		<div class="row">
+ 			<!-- LOCAL INFORMATION -->
+ 			<div class="col-sm-6">
+-				<div ng-app="userInfo" n-controller="profileCtrl" class="well">
++				<div  ng-app="userInfo" ng-controller="profileCtrl" class="well">
+ 					<h3><span class="fa fa-user"></span> Local</h3>
+ 					<p>
+ 						<strong>id</strong>:
+@@ -47,9 +47,10 @@
+ 							<%= user.email %><br>
+ 					</p>
+ 					<div ng-view></div>
++					
+ 					<h3>Skills:</h3>
+ 					<table>
+-						<tr ng-repeat=" x in skills">
++						<tr ng-repeat = " x in skills">
+ 							<td>skill: {{x.skill}}&nbsp&nbsp&nbsp</td>
+ 							<td>score: {{x.score}}&nbsp&nbsp&nbsp</td>
+ 						</tr>
+@@ -66,10 +67,10 @@
+ 		</div>
+ 
+ 	</div>
+-	<script src="/angular/controller/profile.js"></script>
++	<script src = "/angular/controller/profile.js"></script>
+ 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+ 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+ 	<script src="/lib/radar_script.js"></script>
+ </body>
+ 
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/public/sample.html b/public/sample.html
+deleted file mode 100644
+index a16c4cb..0000000
+--- a/public/sample.html
++++ /dev/null
+@@ -1,33 +0,0 @@
+-<html>
+-  <script src="dragula.js"></script>
+-  <link href="example.css" rel="stylesheet" type="text/css"> </link>
+-  <title> Test Page </title>
+-  <body>
+-    <p> This is a test for the dragula </p>
+-   <div class="parent">
+-     
+-    <div id="left" class="container">
+-      
+-      <div> Test 1</div>
+-      <div>Test 2</div>
+-      <div> Test 3</div>
+-      <div> Test 4</div>
+-    </div>
+-    <p> Place the Associated area down here </p> 
+-    <div id="right" class="container">
+-      <div></div>
+-    </div>
+-  </div>
+-   <script src="dragula.js"></script>
+-  <script>
+-    dragula([document.getElementById("left"), document.getElementById("right")], {
+-    copy: function(el, source) {
+-    return source === document.getElementById("left");
+-    },
+-    accepts: function(el, target){
+-    return target !== document.getElementById("left");
+-    }
+-    });
+-    </script>
+-</body>
+-</html>
+diff --git a/public/sample.html~ b/public/sample.html~
+deleted file mode 100644
+index bc88988..0000000
+--- a/public/sample.html~
++++ /dev/null
+@@ -1,25 +0,0 @@
+-<html>
+-  <script src="dragula.js"></script>
+-
+-  <title> Test Page </title>
+-  <body>
+-    <p> This is a test for the dragula </p>
+-   <div class="parent">
+-    <div id="right" class="container">
+-      <div>  </div>
+-      <div> Test 1</div>
+-      <div>Test 2</div>
+-    </div>
+-    <p> Place the Associated area down here </p> 
+-    <div id="left" class="container">
+-      <div>   </div>
+-      <div> Test 3</div>
+-      <div> Test 4 </div>
+-    </div>
+-  </div>
+-   <script src="dragula.js"></script>
+-  <script>
+-    dragula([document.getElementById("right"), document.getElementById("left")]);
+-    </script>
+-</body>
+-</html>
+diff --git a/sample.html b/sample.html
+new file mode 100644
+index 0000000..a16c4cb
+--- /dev/null
++++ b/sample.html
+@@ -0,0 +1,33 @@
++<html>
++  <script src="dragula.js"></script>
++  <link href="example.css" rel="stylesheet" type="text/css"> </link>
++  <title> Test Page </title>
++  <body>
++    <p> This is a test for the dragula </p>
++   <div class="parent">
++     
++    <div id="left" class="container">
++      
++      <div> Test 1</div>
++      <div>Test 2</div>
++      <div> Test 3</div>
++      <div> Test 4</div>
++    </div>
++    <p> Place the Associated area down here </p> 
++    <div id="right" class="container">
++      <div></div>
++    </div>
++  </div>
++   <script src="dragula.js"></script>
++  <script>
++    dragula([document.getElementById("left"), document.getElementById("right")], {
++    copy: function(el, source) {
++    return source === document.getElementById("left");
++    },
++    accepts: function(el, target){
++    return target !== document.getElementById("left");
++    }
++    });
++    </script>
++</body>
++</html>
+diff --git a/sample.html~ b/sample.html~
+new file mode 100644
+index 0000000..bc88988
+--- /dev/null
++++ b/sample.html~
+@@ -0,0 +1,25 @@
++<html>
++  <script src="dragula.js"></script>
++
++  <title> Test Page </title>
++  <body>
++    <p> This is a test for the dragula </p>
++   <div class="parent">
++    <div id="right" class="container">
++      <div>  </div>
++      <div> Test 1</div>
++      <div>Test 2</div>
++    </div>
++    <p> Place the Associated area down here </p> 
++    <div id="left" class="container">
++      <div>   </div>
++      <div> Test 3</div>
++      <div> Test 4 </div>
++    </div>
++  </div>
++   <script src="dragula.js"></script>
++  <script>
++    dragula([document.getElementById("right"), document.getElementById("left")]);
++    </script>
++</body>
++</html>
+diff --git a/server.js b/server.js
+index 7e12969..3c51065 100644
+--- a/server.js
++++ b/server.js
+@@ -11,10 +11,10 @@ db.connect(db.MODE_TEST, function(err) {
+     console.log('Unable to connect to MySQL.')
+     process.exit(1)
+   } else {
+-
+-    app.listen(51234, function() {
+-      console.log('Listening on port 51234...')
+-
++
++    app.listen(52233, function() {
++      console.log('Listening on port 52233...')
++
+     })
+   }
+ })
+diff --git a/texts/schema.txt b/texts/schema.txt
+index 0dff8cd..bbcf81b 100644
+--- a/texts/schema.txt
++++ b/texts/schema.txt
+@@ -101,12 +101,10 @@ CREATE TABLE course_feedback
+ (
+     id INT NOT NULL,
+     course VARCHAR(255),
+-    skill VARCHAR(255),
+-    feedback INT,
++    feedback BOOL,
+     PRIMARY KEY(id,course),
+     FOREIGN KEY(id) REFERENCES user(id),
+     FOREIGN KEY(course) REFERENCES course(course_name);
+-    FOREIGN KEY(skill) REFERENCES skill(skill);
+ )
+ 
+ INSERT INTO skill_helped VALUES('CSC117','Problem solving',9);
+diff --git a/app/routes/general.server.routes.js b/app/routes/general.server.routes.js
+index c623a08..9f23945 100644
+--- a/app/routes/general.server.routes.js
++++ b/app/routes/general.server.routes.js
+@@ -29,4 +29,4 @@ function isLoggedIn(req, res, next) {
+ 
+     // if they aren't redirect them to the home page
+     res.redirect('/');
+-}
++}
+diff --git a/app/views/course_browser.ejs b/app/views/course_browser.ejs
+index 56f2398..b0f2bc8 100644
+--- a/app/views/course_browser.ejs
++++ b/app/views/course_browser.ejs
+@@ -6,13 +6,11 @@
+ <script src="/lib/jquery.tablesorter.js"></script>
+ 
+ <body>
+-    <button id = "btn" type="butoon">Add those courses</button>
++    <p>HI</p>
+ </body>
+ <table id="myTable" class="tablesorter">
+     <thead>
+         <tr>
+-            <th>Selected</th>
+-            <th>time</th>
+             <th>Course Name</th>
+             <th>Course Title</th>
+             <th>Department</th>
+@@ -25,49 +23,18 @@
+     function generateTable()
+     {
+         $.ajax({url:"/courseList",success:function(result){
++            console.log(result);
+             
+             $(document).ready(function() {
+                 $("#myTable").append("<tbody>");
+                 for(var i = 0;i<result.length;i++){
+-                    $("#myTable").append("<tr id = '"+i+"'><td><input type = 'checkbox' name = "+"'c"+i+"'>"+"</td><td><select disabled name='select0'></select><select disabled name = 'select1'><option value = 'Spring'>Spring</option><option value = 'Fall'>Fall</option><option value = 'Winter'>Winter</option></select></td><td><a href = /courses/"+result[i].course_name+">"+result[i].course_name+"</td></a><td>"+result[i].course_title+"</td><td>"+result[i].department+"</td></tr>");
++                    $("#myTable").append("<tr><td><a href = /courses/"+result[i].course_name+">"+result[i].course_name+"</td></a><td>"+result[i].course_title+"</td><td>"+result[i].department+"</td></tr>");
+                 }
+                 $("#myTable").append("</tbody>"); 
+-                var max = new Date().getFullYear(),
+-                min = max-6,
+-                select = document.getElementsByName('select0');
+-                console.log(select);
+-                for (var j = 0; j < select.length; j++){
+-                for (var i = min; i<=max; i++){
+-                    var opt = document.createElement('option');
+-                    opt.value = i;
+-                    opt.innerHTML = i;
+-                    select[j].appendChild(opt);
+-                }}
+-                $(":checkbox").change(function(){
+-                    
+-                    if(this.checked){
+-                        $(this).closest('td').next("td").find('select').prop('disabled',false);
+-                    }
+-                    else{
+-                        $(this).closest('td').next("td").find('select').prop('disabled',true);
+-                    }
+-                })
+                 $("#myTable").tablesorter(); 
+             });
+         }})
+     }
+-
+-    function addCourses(){
+-        var selected = [];
+-        $(':checkbox:checked').each(function(){
+-            //$(this).closest('tr').css("background-color","red");
+-            selected.push($(this).closest('tr').attr('id'));
+-        })
+-        console.log(selected);
+-    }
+-    $("#btn").click(function(){
+-        addCourses();
+-    })
+     generateTable();
+ </script>
+ 
+diff --git a/app/views/course_feedback.ejs b/app/views/course_feedback.ejs
+index 7b33494..4d1bbdd 100644
+--- a/app/views/course_feedback.ejs
++++ b/app/views/course_feedback.ejs
+@@ -52,14 +52,12 @@
+ 	 var mostlyHelpfulArray = [];
+ 	 var HelpfulArray=[];
+ 	 var allArray = [];
+-
+-	 /*<!--allArray is a 2D array of the arrays above.
+-	     It has the form: [['Mostly Helpful Skills'],['Very Helpful Skills'], ['Helpful Skills']]
+-	     This function will go through each of the divs and append the skills to each array. Then, it will push each array into allArray.
+-	     With this, you should be able to send all the information properly to the database.
+-	     Scoring each category is not determined yet. 
+-		-->*/
+-
++	 //allArray is a 2D array of the arrays above.
++	   //  It has the form: [['Mostly Helpful Skills'],['Very Helpful Skills'], ['Helpful Skills']]
++	     //This function will go through each of the divs and append the skills to each array. Then, it will push each array into allArray.
++	     //With this, you should be able to send all the information properly to the database.
++	     //Scoring each category is not determined yet. 
++	  
+ 	 console.log("These skills are Very Helpful:");
+ 	 for (var i = 0; i < veryHelpful.length; i++)
+ 			     {
+diff --git a/app/views/profile.ejs b/app/views/profile.ejs
+index 6fa76cb..0e44d93 100644
+--- a/app/views/profile.ejs
++++ b/app/views/profile.ejs
+@@ -38,7 +38,7 @@
+ 		<div class="row">
+ 			<!-- LOCAL INFORMATION -->
+ 			<div class="col-sm-6">
+-				<div ng-app="userInfo" n-controller="profileCtrl" class="well">
++				<div  ng-app="userInfo" ng-controller="profileCtrl" class="well">
+ 					<h3><span class="fa fa-user"></span> Local</h3>
+ 					<p>
+ 						<strong>id</strong>:
+@@ -47,9 +47,10 @@
+ 							<%= user.email %><br>
+ 					</p>
+ 					<div ng-view></div>
++					
+ 					<h3>Skills:</h3>
+ 					<table>
+-						<tr ng-repeat=" x in skills">
++						<tr ng-repeat = " x in skills">
+ 							<td>skill: {{x.skill}}&nbsp&nbsp&nbsp</td>
+ 							<td>score: {{x.score}}&nbsp&nbsp&nbsp</td>
+ 						</tr>
+@@ -66,10 +67,10 @@
+ 		</div>
+ 
+ 	</div>
+-	<script src="/angular/controller/profile.js"></script>
++	<script src = "/angular/controller/profile.js"></script>
+ 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+ 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+ 	<script src="/lib/radar_script.js"></script>
+ </body>
+ 
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/public/sample.html b/public/sample.html
+deleted file mode 100644
+index a16c4cb..0000000
+--- a/public/sample.html
++++ /dev/null
+@@ -1,33 +0,0 @@
+-<html>
+-  <script src="dragula.js"></script>
+-  <link href="example.css" rel="stylesheet" type="text/css"> </link>
+-  <title> Test Page </title>
+-  <body>
+-    <p> This is a test for the dragula </p>
+-   <div class="parent">
+-     
+-    <div id="left" class="container">
+-      
+-      <div> Test 1</div>
+-      <div>Test 2</div>
+-      <div> Test 3</div>
+-      <div> Test 4</div>
+-    </div>
+-    <p> Place the Associated area down here </p> 
+-    <div id="right" class="container">
+-      <div></div>
+-    </div>
+-  </div>
+-   <script src="dragula.js"></script>
+-  <script>
+-    dragula([document.getElementById("left"), document.getElementById("right")], {
+-    copy: function(el, source) {
+-    return source === document.getElementById("left");
+-    },
+-    accepts: function(el, target){
+-    return target !== document.getElementById("left");
+-    }
+-    });
+-    </script>
+-</body>
+-</html>
+diff --git a/public/sample.html~ b/public/sample.html~
+deleted file mode 100644
+index bc88988..0000000
+--- a/public/sample.html~
++++ /dev/null
+@@ -1,25 +0,0 @@
+-<html>
+-  <script src="dragula.js"></script>
+-
+-  <title> Test Page </title>
+-  <body>
+-    <p> This is a test for the dragula </p>
+-   <div class="parent">
+-    <div id="right" class="container">
+-      <div>  </div>
+-      <div> Test 1</div>
+-      <div>Test 2</div>
+-    </div>
+-    <p> Place the Associated area down here </p> 
+-    <div id="left" class="container">
+-      <div>   </div>
+-      <div> Test 3</div>
+-      <div> Test 4 </div>
+-    </div>
+-  </div>
+-   <script src="dragula.js"></script>
+-  <script>
+-    dragula([document.getElementById("right"), document.getElementById("left")]);
+-    </script>
+-</body>
+-</html>
+diff --git a/sample.html b/sample.html
+new file mode 100644
+index 0000000..a16c4cb
+--- /dev/null
++++ b/sample.html
+@@ -0,0 +1,33 @@
++<html>
++  <script src="dragula.js"></script>
++  <link href="example.css" rel="stylesheet" type="text/css"> </link>
++  <title> Test Page </title>
++  <body>
++    <p> This is a test for the dragula </p>
++   <div class="parent">
++     
++    <div id="left" class="container">
++      
++      <div> Test 1</div>
++      <div>Test 2</div>
++      <div> Test 3</div>
++      <div> Test 4</div>
++    </div>
++    <p> Place the Associated area down here </p> 
++    <div id="right" class="container">
++      <div></div>
++    </div>
++  </div>
++   <script src="dragula.js"></script>
++  <script>
++    dragula([document.getElementById("left"), document.getElementById("right")], {
++    copy: function(el, source) {
++    return source === document.getElementById("left");
++    },
++    accepts: function(el, target){
++    return target !== document.getElementById("left");
++    }
++    });
++    </script>
++</body>
++</html>
+diff --git a/sample.html~ b/sample.html~
+new file mode 100644
+index 0000000..bc88988
+--- /dev/null
++++ b/sample.html~
+@@ -0,0 +1,25 @@
++<html>
++  <script src="dragula.js"></script>
++
++  <title> Test Page </title>
++  <body>
++    <p> This is a test for the dragula </p>
++   <div class="parent">
++    <div id="right" class="container">
++      <div>  </div>
++      <div> Test 1</div>
++      <div>Test 2</div>
++    </div>
++    <p> Place the Associated area down here </p> 
++    <div id="left" class="container">
++      <div>   </div>
++      <div> Test 3</div>
++      <div> Test 4 </div>
++    </div>
++  </div>
++   <script src="dragula.js"></script>
++  <script>
++    dragula([document.getElementById("right"), document.getElementById("left")]);
++    </script>
++</body>
++</html>
+diff --git a/server.js b/server.js
+index 7e12969..3c51065 100644
+--- a/server.js
++++ b/server.js
+@@ -11,10 +11,10 @@ db.connect(db.MODE_TEST, function(err) {
+     console.log('Unable to connect to MySQL.')
+     process.exit(1)
+   } else {
+-
+-    app.listen(51234, function() {
+-      console.log('Listening on port 51234...')
+-
++
++    app.listen(52233, function() {
++      console.log('Listening on port 52233...')
++
+     })
+   }
+ })
+diff --git a/texts/schema.txt b/texts/schema.txt
+index 0dff8cd..bbcf81b 100644
+--- a/texts/schema.txt
++++ b/texts/schema.txt
+@@ -101,12 +101,10 @@ CREATE TABLE course_feedback
+ (
+     id INT NOT NULL,
+     course VARCHAR(255),
+-    skill VARCHAR(255),
+-    feedback INT,
++    feedback BOOL,
+     PRIMARY KEY(id,course),
+     FOREIGN KEY(id) REFERENCES user(id),
+     FOREIGN KEY(course) REFERENCES course(course_name);
+-    FOREIGN KEY(skill) REFERENCES skill(skill);
+ )
+ 
+ INSERT INTO skill_helped VALUES('CSC117','Problem solving',9);

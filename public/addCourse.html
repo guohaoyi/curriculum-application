@@ -1,0 +1,13 @@
+<html>
+<h1> Add Course:</h1>
+<table>
+    <tr ng-repeat=" x in courseList">
+        <td>{{x.course_name}}&nbsp&nbsp&nbsp</td>
+        <td>{{x.course_title}}&nbsp&nbsp&nbsp</td>
+        <td><input type ="checkbox" ng-model = "selected[x.id]"></td>
+    </tr>
+</table>
+<div id="skills"> </div>
+<a ng-click = "addCourses()" class="btn btn-default btn-sm">Submit</a>
+
+</html>

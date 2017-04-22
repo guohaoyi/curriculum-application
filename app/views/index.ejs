@@ -1,0 +1,41 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html ng-app>
+
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <style>
+  body
+      {
+  background-image: url("/img/oldcentre.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+      <div class="left"> </div>
+      <div class="right" style="opacity:.85">
+        <div class="jumbotron text-center">
+            <h1>Welcome!</h1>
+            <p>Login or Register with:</p>
+            <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
+            <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup for an Account</a>
+	    <p> Centre Links: </p>
+	    <a href="https://www.centre.edu"><p> Centre Homepage</p> </a>
+	    <a href="https://centrenet.centre.edu"> Centrenet </a>
+        </div>
+	
+	</div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</body>
+
+</html>

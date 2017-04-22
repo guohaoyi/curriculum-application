@@ -1,0 +1,43 @@
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
+<script>
+
+
+
+  function adjustStyle(width) 
+  {
+  width = parseInt(width);
+  if (width < 600) 
+	      {
+	      $("#size-stylesheet").attr("href", "/css/mobile.css");
+	      } 
+	      else 
+	      {
+	      $("#size-stylesheet").attr("href", "/css/desktop.css");
+	      $("#myNav").show();
+	      }
+	      }
+	      
+	      $(function() 
+              {
+	      adjustStyle($(this).width());
+	      //be sure to react if there is a change in the future
+              $(window).resize(function() 
+              {
+	      //console.log("width",$(this).width());
+	      adjustStyle($(this).width());
+	      });
+	      });
+	      </script>
+
+
+<footer>
+<p>
+Need help? See our <a href="https://www.youtube.com/watch?v=f_jEYgnNFMk">Video</a>.</p>
+<p>
+Please contact <a href=mailto:"michael.bradshaw@centre.edu?Subject=Eval%20App" target ="_top">michael.bradshaw@centre.edu</a> with any questions, comments, or suggestions.
+</p>
+</footer>
+
+</body>
