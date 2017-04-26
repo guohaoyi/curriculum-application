@@ -13,7 +13,24 @@
         //$("#div1").html(result);
 	var imageArray = [];
       var skills=  ["#skill0","#skill1","#skill2"];
-<!-- for each of the top three skills, create a drop down menu for the 8 skills -->
+      <!-- for each of the top three skills, create a drop down menu for the 8 skills -->
+      for (var n = 0; n < 2; n++)
+			  {
+			  var generated = '<tr>';
+			  for (var m = 0; m < result.length; m ++)
+					      {
+					      if (n == 0)
+					      {
+					      generated += '<td><img class="skillIcon" src="'+result[m].skills_img+'" '+ 'title="'+result[m].skill +'" unselectable="on" '+' \> </td>';
+					      }
+					      else
+					      {
+					      generated += '<td>' + result[m].skill + '</td>';
+					      }
+					      }
+					      generated += ' </tr>';
+					      $('#legend').append(generated);
+			  }
       for (var j = 0; j < skills.length; j++)
 			  {
 			  var blankSpace = $('<option class="selectableSkill" value = "none"> </option>');
@@ -96,7 +113,11 @@ height:100px;
 float:left;
 margin-right: 15px;
 }
-
+#legend tr td
+{
+width: 12%;
+padding: 3px;
+}
 .score
 {
    width:65%;
@@ -134,11 +155,12 @@ background-color:lightgray;
     <%= course %>
     </h1>
     <div class="parent">
+      
     <div class="wrapper">
-   
+      <p> Here is a legend of all the skills and images: </p>
+    <table id = "legend"> </table>
 
 <p>  Select the top three skills to evaluate. Don't rate the same skill twice. </p>
-<p> A red border indicates duplicates or no skill entered.</p>
    <div id="skillInput">
      </div>
 
@@ -157,10 +179,9 @@ background-color:lightgray;
      changeSkill('#skill2','#skill0','#skill1');
 });
 function skillDuplicate(skillName)
-{
-    
-     var changeSpan = $(skillName + 'Score span');
-     var changeScore = $(skillName + 'Score input');
+{    
+     var changeSpan = $(skillName + 'Score #skilltext');
+     var changeScore = $(skillName + 'Score #skillrate');
      console.log($(skillName).val());
      if (($(skillName).val() == "none") || ($(skillName).val() == null))
      {
@@ -174,11 +195,11 @@ function skillDuplicate(skillName)
 }
 function skillShowInformation(skillName)
 {
-     var changeSpan = $(skillName + 'Score span');
-     var changeScore = $(skillName + 'Score input');
+     //function to show skill information if it's not a duplicate
+     var changeSpan = $(skillName + 'Score #skilltext');
+     var changeScore = $(skillName + 'Score #skillrate');
      if ($(skillName).val() == "none")
-     {
-     
+     {    
      changeSpan.text("There is not a skill listed. Please enter a skill to evaluate");
      }
      else
@@ -191,7 +212,9 @@ function skillShowInformation(skillName)
 function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
 {
      //A function to change the skill text and to test for duplicates
-     //	  if there are duplicates, make the border of each drop down red
+     //If there are duplicates, it hides the slider and scoring information
+     //displays a message that there is no skill selected or there is a duplicate
+     //Fixing this will display the evaluation for the skill
      var changeSpan = $(skillName + 'Score span');
      var changeScore = $(skillName + 'Score input');
     
@@ -210,9 +233,7 @@ function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
      {
      skillShowInformation(skillNotUsed2);
      }
-
      }
-    
 }
      $(document).ready(function()
 {
@@ -238,12 +259,12 @@ function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
       var score = document.createElement("div");
       score.id = "skill"+i+"Score";
       score.className = "score" 
-      score.innerHTML = '<span> How much of this skill did you learn? </span>'+
-	   '<br> A Little (1) <input id="score'+i+
+      score.innerHTML = '<span id="skilltext"> How much of this skill did you learn? </span>'+
+	   '<span id="skillrate"><br> A Little (1) <input id="score'+i+
 	   '" type="range" value="1" min="1" max="7" '+
 	   ' style="display:inline-block; vertical-align: middle; width: 60%"'+
 	   ' onchange="updateSliderVal(this.value,\'score'+i+'Val\');"> A Lot (7) '+
-	   '<div id="score'+i+'Val" class="right">1</div>'
+	   '<div id="score'+i+'Val" class="right">1</div> </span>'
 ;
       
       wrap.appendChild(cont);
