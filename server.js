@@ -5,11 +5,7 @@ var express = require('./config/express'),
 
 var app = express();
 
-var port = 59999;
-var port = 52235;
-
-
-
+var port = 3695;
 db.connect(db.MODE_TEST, function(err) {
   if (err) {
     console.log('Unable to connect to MySQL.')
