@@ -1,8 +1,20 @@
-<h3>Courses:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="/courseSearch" class="btn btn-default btn-sm">Add</a></h3>
-					<table>
-						<tr ng-repeat = " x in courses">
-							<td><a ng-href="{{'/courses/'+x.course }}" ng-click = "saveCourse()">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
-							<td>{{x.year + x.season}}&nbsp&nbsp&nbsp</td>
-							<td><a ng-href="{{'/course_feedback/'+x.course }}">evaluate</a>&nbsp&nbsp&nbsp</td>
-						</tr>
-					</table>
+<h4>Select Terms You Want To See:</h4>
+<!--
+<h3>Courses:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  <a href="/courseSearch" class="btn btn-default btn-sm">Add</a>
+</h3>
+-->
+<table>
+  <tr ng-repeat = "x in semesters">
+    <td><input type="checkbox">{{x}}</td>
+  </tr>
+  <td><b>Course Name</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Semester Taken</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Evaluation Link</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Last Evaluated</b>&nbsp&nbsp&nbsp&nbsp</td>
+  <tr ng-repeat = "x in courses">
+    <td><a ng-href="{{'/courses/'+x.course }}" ng-click = "saveCourse()">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
+    <td>{{x.season + x.year}}&nbsp&nbsp&nbsp</td>
+    <td><a ng-href="{{'/course_feedback/'+x.course }}">evaluate</a>&nbsp&nbsp&nbsp</td>
+  </tr>
+</table>

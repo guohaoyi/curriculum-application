@@ -7,24 +7,43 @@
     <script src="/lib/jquery-3.1.1.min.js"></script>
     <script>
       var feedbackSkills = 3;
-
-
     function generateButtons(json)
 {
     $.ajax({url: "/skillList", success: function(result){
-        
-        
         //$("#div1").html(result);
-	
+	var imageArray = [];
+      var skills=  ["#skill0","#skill1","#skill2"];
+      <!-- for each of the top three skills, create a drop down menu for the 8 skills -->
+      for (var n = 0; n < 2; n++)
+			  {
+			  var generated = '<tr>';
+			  for (var m = 0; m < result.length; m ++)
+					      {
+					      if (n == 0)
+					      {
+					      generated += '<td><img class="skillIcon" src="'+result[m].skills_img+'" '+ 'title="'+result[m].skill +'" unselectable="on" '+' \> </td>';
+					      }
+					      else
+					      {
+					      generated += '<td>' + result[m].skill + '</td>';
+					      }
+					      }
+					      generated += ' </tr>';
+					      $('#legend').append(generated);
+			  }
+      for (var j = 0; j < skills.length; j++)
+			  {
+			  var blankSpace = $('<option class="selectableSkill" value = "none"> </option>');
+			  $(skills[j]).append(blankSpace);
         for (var i = 0; i < result.length ; i ++)
 	{
-	    var radioButton = $('<div class="selectableSkill" unselectable="on">' +
-				'<img class="skillIcon" src="'+result[i].skills_img+'" '+
-				      'title="'+result[i].skill +'" unselectable="on" '+
-				' \>'+
-				'</div>') ;
-	    radioButton.appendTo("#SkillList");
-	}
+			    var skillImage = $('<option class="selectableSkill" value = "'+result[i].skill+'">' + result[i].skill+
+			    '</option>');
+			    imageArray.push(skillImage);
+			    $(skills[j]).append(skillImage);
+}
+}
+	
 	
 	/*  title on the images will automatically do the tool tips...
 	    Would be niced to do this so it is uniform...
@@ -80,11 +99,6 @@ display:inline;
     margin: 0 auto;
 }
 
-.selectableSkill
-{
-display:inline;
-}
-
 .skillWrap
 {
 width:100%;
@@ -99,10 +113,14 @@ height:100px;
 float:left;
 margin-right: 15px;
 }
-
+#legend tr td
+{
+width: 12%;
+padding: 3px;
+}
 .score
 {
-   width:70%;
+   width:65%;
 float:left;
 clear:right;
 }
@@ -115,7 +133,18 @@ clear:right;
     font-size:200%;
 
 }
-
+.skillWrap .container
+{
+width: 30%;
+}
+.skillWrap .score
+{
+float: right;
+}
+.container
+{
+background-color:lightgray;
+}
 
 </style>
 
@@ -126,18 +155,93 @@ clear:right;
     <%= course %>
     </h1>
     <div class="parent">
+      
     <div class="wrapper">
-    <p> Drag the three skills that you gained most from this course: </p>
-    
-    <div id="SkillList" class="container"> </div>
+      <p> Here is a legend of all the skills and images: </p>
+    <table id = "legend"> </table>
 
-
-<p>  Drag one skill to each box </p>
-
+<p>  Select the top three skills to evaluate. Don't rate the same skill twice. </p>
    <div id="skillInput">
      </div>
 
    <script>
+     $(document).on('change','#skill0',function()
+{
+     changeSkill('#skill0','#skill1','#skill2');
+     
+});
+     $(document).on('change','#skill1', function()
+{
+     changeSkill('#skill1','#skill0','#skill2');
+});
+     $(document).on('change','#skill2' ,function()
+{
+     changeSkill('#skill2','#skill0','#skill1');
+});
+function skillDuplicate(skillName)
+{    
+     var changeSpan = $(skillName + 'Score #skilltext');
+     var changeScore = $(skillName + 'Score #skillrate');
+     console.log($(skillName).val());
+     if (($(skillName).val() == "none") || ($(skillName).val() == null))
+     {
+     changeSpan.text("There is not a skill entered. Please reselect before voting");
+     }
+     else
+     {
+     changeSpan.text("There are duplicate skills selected. Please reselect before voting");
+     }
+     changeScore.hide();
+}
+function skillShowInformation(skillName)
+{
+     //function to show skill information if it's not a duplicate
+     var changeSpan = $(skillName + 'Score #skilltext');
+     var changeScore = $(skillName + 'Score #skillrate');
+     if ($(skillName).val() == "none")
+     {    
+     changeSpan.text("There is not a skill listed. Please enter a skill to evaluate");
+     }
+     else
+     {
+     $(skillName).css('border-color','transparent');
+     changeSpan.text("How much did you develop " + $(skillName).val() + " in this course?");
+     changeScore.show();
+     }
+}
+function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
+{
+     //A function to change the skill text and to test for duplicates
+     //If there are duplicates, it hides the slider and scoring information
+     //displays a message that there is no skill selected or there is a duplicate
+     //Fixing this will display the evaluation for the skill
+     var changeSpan = $(skillName + 'Score span');
+     var changeScore = $(skillName + 'Score input');
+    
+     if (($(skillName).val() == $(skillNotUsed1).val()) || ($(skillName).val() == $(skillNotUsed2).val()))
+     {
+     skillDuplicate(skillName);
+     }
+     else
+     {
+     skillShowInformation(skillName);
+     if (($(skillName).val() != $(skillNotUsed1).val()) && ($(skillNotUsed1).val() != $(skillNotUsed2).val()))
+     {
+     skillShowInformation(skillNotUsed1);
+     }
+     if (($(skillName).val() != $(skillNotUsed2).val()) && ($(skillNotUsed1).val() != $(skillNotUsed2).val()))
+     {
+     skillShowInformation(skillNotUsed2);
+     }
+     }
+}
+     $(document).ready(function()
+{
+     $('#skill0').trigger('change');
+     $('#skill1').trigger('change');
+     $('#skill2').trigger('change');
+     
+     });
 (function(numSkills)
 {
    var list = document.getElementById("skillInput");
@@ -148,26 +252,27 @@ clear:right;
       wrap.className="skillWrap";
       
       //Insert a Skill in the grey box:</td> </tr>
-      var cont = document.createElement("div");
+      var cont = document.createElement("select");
       cont.id = "skill"+i; 
       cont.className = "container skill";
    		  
       var score = document.createElement("div");
       score.id = "skill"+i+"Score";
       score.className = "score" 
-      score.innerHTML = '<span> How much of this skill did you learn? </span>'+
-	   '<br> A Little (1) <input id="score'+i+
+      score.innerHTML = '<span id="skilltext"> How much of this skill did you learn? </span>'+
+	   '<span id="skillrate"><br> A Little (1) <input id="score'+i+
 	   '" type="range" value="1" min="1" max="7" '+
 	   ' style="display:inline-block; vertical-align: middle; width: 60%"'+
 	   ' onchange="updateSliderVal(this.value,\'score'+i+'Val\');"> A Lot (7) '+
-	   '<div id="score'+i+'Val" class="right">1</div>'
+	   '<div id="score'+i+'Val" class="right">1</div> </span>'
 ;
       
       wrap.appendChild(cont);
       wrap.appendChild(score);
-      
+
       list.appendChild(wrap);
    }
+		 
 
 
 })(feedbackSkills);
@@ -284,23 +389,38 @@ var onDrop = function(el,target)
 
 </script>
     <script>
+      function isAnyBlank()
+      {
+      return (($('#skill0').val() == "none") || ($('#skill1').val() == "none") || ($('#skill2').val() == "none") || ($('#skill0').val() == null) || ($('#skill1').val() == null) || ($('#skill2').val() == null));
+      }
+      function isAnyDuplicates()
+      {
+      return (($('#skill0').val() == $('#skill1').val()) || ($('#skill0').val() == $('#skill2').val()) || ($('#skill1').val() == $('#skill2').val()))
+      }
     $("#myButton").click(function()
       {
-	  
-	  var allArray =[];
+   <!-- This function get all the skills in an array and then posts data to the database -->
+   if (isAnyBlank() || isAnyDuplicates())
+   {
+   alert("There is a duplicate or an empty skill. Please adjust before submitting");
+   console.log("blank");
+   }
+   else
+   {
+   var allArray =[];
 	  
 	  var i;
 	  for(i=0;i<feedbackSkills;i++)
           {
-	      allArray.push( [ $("#skill"+i).find('img')[0].title || "",
+	      allArray.push( [ $("#skill"+i).val() || "",
 			       $("#score"+i).val()]);
-	  } 
+	  }
 	  console.log(allArray);
 
 	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
 	  window.location.href = "/courses/<%= course %>";
-
-      })
+		      }
+		      });
 $.get('/skillList',function(data,status){
     console.log(data);
 })

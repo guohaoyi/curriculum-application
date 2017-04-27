@@ -1,8 +1,8 @@
 var mysql = require('mysql')
   , async = require('async')
 
-var PRODUCTION_DB = 'datavizProduction';
-var  TEST_DB = 'datavizDev'
+var PRODUCTION_DB = 'datavizProduction'
+  , TEST_DB = 'datavizDev'
 
 exports.MODE_TEST = 'mode_test'
 exports.MODE_PRODUCTION = 'mode_production'
@@ -17,8 +17,8 @@ exports.connect = function(mode, done) {
     host: 'localhost',
     user: 'dataviz',
     password: 'Dj7Q3',
-      database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : TEST_DB
-//      database: PRODUCTION_DB
+ de === exports.MODE_PRODUCTION ? PRODUCTION_DB : TEST_DB
+      database: TEST_DB
   })
 
   state.mode = mode
