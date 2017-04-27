@@ -44,6 +44,12 @@ Search:
 <button type="button" class="reset btn btn-default">Reset</button>
 <code id="show-filter"></code>
 <p> Instructions: Click on a row to add the course</P>
+<div class="dropdown">
+<button onclick="myFunction()" class="dropbtn">Dropdown</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="">Term</a>
+  </div>
+</div>
 <table id="myTable" class="tablesorter">
     <thead>
         <tr>
@@ -72,11 +78,11 @@ Search:
                 $("#myTable").append("<tbody>");
                 for(var i = 0;i<result.length;i++){
                     if(result[i].id){
-                        var added = "<span class='glyphicon glyphicon-ok'></span>"
+                        var added = "<span class= 'label label-success'>Evaluated</span>"
                     }
                     else{
-                         var added = "<span class='glyphicon glyphicon-plus'></span>"
-                    }
+                         var added = "<span class='label label-primary'>Evaluate</span>" 
+			}
                     var c = result[i].course_name;
                     c.replace(/ /g,"%20");
                     $("#myTable").append(
