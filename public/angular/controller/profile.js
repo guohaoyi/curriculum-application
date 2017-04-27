@@ -11,6 +11,14 @@ app.controller('profileCtrl', function ($scope, $http, $location) {
     $http.get('/profile/userInfo').then(function (res) {
         $scope.courses = res.data[0];
         $scope.skills = res.data[1];
+	var semesters = [];
+	for (var i = 0; i < res.data[0].length; i++) {
+	    var term = res.data[0][i].season.replace(/\s/g,'') + " " + res.data[0][i].year;
+	    if (semesters.indexOf(term) == -1) {
+		semesters.push(term);
+	    }
+	}
+	$scope.semesters = semesters;
     });
 
     $http.get('/courseList').then(function (res) {

@@ -6,7 +6,8 @@ var express = require('./config/express'),
 var app = express();
 
 var port = 59999;
-var port = 52235;
+var port = 3000;
+//var port = 52235;
 
 
 
