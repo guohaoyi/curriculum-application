@@ -5,11 +5,7 @@ var express = require('./config/express'),
 
 var app = express();
 
-var port = 59999;
 var port = 3000;
-//var port = 52235;
-
-
 
 db.connect(db.MODE_TEST, function(err) {
   if (err) {
@@ -26,7 +22,4 @@ db.connect(db.MODE_TEST, function(err) {
   }
 })
 
-//app.listen(51234);
 module.exports = app;
-
-//console.log("server running at port 51234...");

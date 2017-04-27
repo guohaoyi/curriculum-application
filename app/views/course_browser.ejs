@@ -72,10 +72,10 @@ Search:
                 $("#myTable").append("<tbody>");
                 for(var i = 0;i<result.length;i++){
                     if(result[i].id){
-                        var added = "<span class='glyphicon glyphicon-ok'></span>"
+                        var added = "<span> Course Evaluated</span>"
                     }
                     else{
-                         var added = "<span class='glyphicon glyphicon-plus'></span>"
+                         var added = "<span> Add Course</span>"
                     }
                     var c = result[i].course_name;
                     c.replace(/ /g,"%20");
