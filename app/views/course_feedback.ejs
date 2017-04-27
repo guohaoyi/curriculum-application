@@ -417,8 +417,8 @@ var onDrop = function(el,target)
 	  }
 	  console.log(allArray);
 
-	  //$.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
-	  //window.location.href = "/courses/<%= course %>";
+	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
+	  window.location.href = "/courses/<%= course %>";
 		      }
 		      });
 $.get('/skillList',function(data,status){
