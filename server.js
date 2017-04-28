@@ -5,7 +5,7 @@ var express = require('./config/express'),
 
 var app = express();
 
-var port = 3000;
+var port = 3666;
 
 db.connect(db.MODE_TEST, function(err) {
   if (err) {

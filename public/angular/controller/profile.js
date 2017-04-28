@@ -11,7 +11,7 @@ app.controller('profileCtrl', function ($scope, $http, $location) {
     $http.get('/profile/userInfo').then(function (res) {
         $scope.courses = res.data[0];
         $scope.skills = res.data[1];
-
+	console.log($scope.skills);
 	var semesters = [];
 	for (var i = 0; i < res.data[0].length; i++) {
 	    var term = res.data[0][i].season.replace(/\s/g,'') + " " + res.data[0][i].year;
@@ -20,7 +20,8 @@ app.controller('profileCtrl', function ($scope, $http, $location) {
 	    }
 	}
 	$scope.semesters = semesters;
-
+	$scope.currentcourses = res.data[0];
+	console.log($scope.currentcourses);
     });
 
     $http.get('/courseList').then(function (res) {
@@ -29,29 +30,37 @@ app.controller('profileCtrl', function ($scope, $http, $location) {
         }
         $scope.courseList = res.data;
     });
-    $scope.selected = {};
-    $scope.addCourses = function () {
-        var d = {};
-        for (var i in $scope.courseList) {
-            if ($scope.selected[i]) {
-                d[i] = $scope.courseList[i]
-            }
-        };
-        console.log(d);
-        $http({
-            method: "POST",
-            url: "/profile/addSelectedCourses",
-            data: d
-        }).then(function (res) {
-            //TODO: change this to function call
-            $http.get('/profile/userInfo').then(function (res) {
-                $scope.courses = res.data[0];
-                $scope.skills = res.data[1];
-            });
-
-            $location.path('/');
-
-        });
-
+    
+    
+    $scope.filter = function()
+    {
+	var divs = $('.checks');
+	var courses = [];
+	
+	for (var i = 0; i < divs.length; i ++)
+	    {
+		var divchildren = $(divs[i]).children();
+		if (divchildren[0].checked)
+		    {
+			console.log(divchildren[1]);
+			for (var j = 0; j < $scope.courses.length; j++)
+			{
+			    
+			    var term = $scope.courses[j].season.replace(/\s/g,'') + " " + $scope.courses[j].year;	
+				if ($(divchildren[1]).text()== term)
+				    {
+					courses.push($scope.courses[j]);
+				    }
+			    }
+		    }
+	    }
+	
+	$scope.currentcourses = [];
+	$scope.currentcourses = courses;
+	
+    }
+    $scope.restore = function()
+    {
+	$scope.currentcourses = $scope.courses;
     }
 });

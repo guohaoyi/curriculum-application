@@ -4,15 +4,31 @@
   <a href="/courseSearch" class="btn btn-default btn-sm">Add</a>
 </h3>
 -->
+<style>
+.checks
+{
+display: inline-block;
+padding: 5px;
+}
+.checks span
+{
+text-align: center;
+}
+</style>
 <table>
-  <tr ng-repeat = "x in semesters">
-    <td><input type="checkbox">{{x}}</td>
+  <tr >
+    <div ng-repeat = "x in semesters" class = "checks"><input type="checkbox" ><span>{{x}}</span></div>
   </tr>
+  <br>
+ <button ng-click="filter()"> Filter Courses </button>
+ <button ng-click="restore()"> Show All Courses </button>
+</table>
+<table>
   <td><b>Course Name</b>&nbsp&nbsp&nbsp</td>
   <td><b>Semester Taken</b>&nbsp&nbsp&nbsp</td>
   <td><b>Evaluation Link</b>&nbsp&nbsp&nbsp</td>
   <td><b>Last Evaluated</b>&nbsp&nbsp&nbsp&nbsp</td>
-  <tr ng-repeat = "x in courses">
+  <tr ng-repeat = "x in currentcourses">
     <td><a ng-href="{{'/courses/'+x.course }}" ng-click = "saveCourse()">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
     <td>{{x.season + x.year}}&nbsp&nbsp&nbsp</td>
     <td><a ng-href="{{'/course_feedback/'+x.course }}">evaluate</a>&nbsp&nbsp&nbsp</td>

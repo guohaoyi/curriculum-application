@@ -337,7 +337,8 @@ var updateSliderVal = function(val,target)
 	  console.log(allArray);
 
 	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
-	  window.location.href = "/courses/<%= course %>";
+	  //window.location.href = "/courses/<%= course %>";
+		      window.location.href = "/";
 		      }
 		      });
 $.get('/skillList',function(data,status){
