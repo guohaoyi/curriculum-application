@@ -59,8 +59,19 @@ app.controller('profileCtrl', function ($scope, $http, $location) {
 	$scope.currentcourses = courses;
 	
     }
+    
     $scope.restore = function()
     {
 	$scope.currentcourses = $scope.courses;
+	uncheckAll();
+    }
+    function uncheckAll()
+    {
+	var divs = $('.checks');
+	for (var i = 0; i < divs.length; i++)
+	    {
+		var divchildren = $(divs[i]).children();
+		divchildren[0].checked = false;
+	    }
     }
 });

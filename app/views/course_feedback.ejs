@@ -33,7 +33,7 @@
 			  }
       for (var j = 0; j < skills.length; j++)
 			  {
-			  var blankSpace = $('<option class="selectableSkill" value = "none"> </option>');
+			  var blankSpace = $('<option class="selectableSkill" value = "none"> Click to Select Skill</option>');
 			  $(skills[j]).append(blankSpace);
         for (var i = 0; i < result.length ; i ++)
 	{
@@ -154,12 +154,14 @@ background-color: white;
 
 </style>
 
-<body>
+<body ng-app="curriculum" ng-controller = "feedbackController">
 
 
     <h1>
     <%= course %>
     </h1>
+    <myHeader> </myHeader>
+    <nav>
     <div class="parent">
       
     <div class="wrapper">
@@ -298,7 +300,6 @@ var updateSliderVal = function(val,target)
     <button onClick="goBack()"> Go Back to Profile </button>
 
     </div>
-    <script src="/lib/dragula.js"> </script>
     <script>
     function goBack()
 {

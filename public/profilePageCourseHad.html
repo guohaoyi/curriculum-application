@@ -17,10 +17,9 @@ text-align: center;
 </style>
 <table>
   <tr >
-    <div ng-repeat = "x in semesters" class = "checks"><input type="checkbox" ><span>{{x}}</span></div>
+    <div ng-repeat = "x in semesters" class = "checks"><input type="checkbox" ng-click = "filter()"><span>{{x}}</span></div>
   </tr>
   <br>
- <button ng-click="filter()"> Filter Courses </button>
  <button ng-click="restore()"> Show All Courses </button>
 </table>
 <table>

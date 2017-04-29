@@ -74,7 +74,7 @@ Search:
         $.ajax({url:"/studentCourseList",success:function(result){
             
             $(document).ready(function() {
-                
+   
                 $("#myTable").append("<tbody>");
                 for(var i = 0;i<result.length;i++){
                     if(result[i].id){
