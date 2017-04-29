@@ -167,7 +167,8 @@ app.controller('profileCtrl', function ($scope, $http, $location) {
 	    var obj = {skill:skill,value:val};
 	    total.push(obj);
 	}
-
+	console.log($('#skill_legend span').text());
+	$('#skill_legend span').text( "This graph is a summary of " + $scope.currentcourses.length + " course(s)");
 	RadarScript(["total"],[total],skills);
     }
 
