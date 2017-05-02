@@ -5,7 +5,39 @@
   <% var title = "Your Profile"; %>
   <%- include partials/header.ejs %>
 
-  <div class="wrapper" ng-app="userInfo" ng-controller="profileCtrl"> 
+  <style>
+    .userInfo
+    {
+    float: left;
+    width: 45%;
+    
+    }
+    #RadarChart
+    {
+    float: right;
+    width: 45%;
+    }
+    @media only screen
+    and (min-device-width: 250px)
+    and (max-device-width: 900px)
+    {
+    .userInfo
+    {
+    width: 100%;
+    
+    }
+    #RadarChart
+    {
+    float: none;
+    width: 100%;
+    }
+    #RadarChart #chart
+    {
+    width: 75%;
+    }
+    }
+  </style>
+  <div class="wrapper" ng-app="userInfo" ng-controller="profileCtrl" > 
     <div class="userInfo aside">
       <div class="well w3-closenav w3-right w3-xlarge">
 	<div id="userInfo" style="display: block;">
@@ -14,7 +46,7 @@
       </div>
     </div>
 
-    <div id="RadarChart">
+    <div id="RadarChart" >
       <div id="semester info"></div>
       <div id="chart"></div>
       <div id="skill_legend">
@@ -36,8 +68,6 @@
   <script src="/lib/radar_chart.js"></script> 
   <script src="/lib/radar_script.js"></script>
   <script src="/lib/profile_script.js"></script>
-
-
-
+  
   <%- include partials/footer.ejs %>
 </html>

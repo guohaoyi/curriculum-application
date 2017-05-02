@@ -2,7 +2,7 @@ var mysql = require('mysql')
   , async = require('async')
 
 var PRODUCTION_DB = 'datavizProduction';
-var  TEST_DB = 'datavizDev'
+var  TEST_DB = 'datavizProduction'
 
 exports.MODE_TEST = 'mode_test'
 exports.MODE_PRODUCTION = 'mode_production'
