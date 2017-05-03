@@ -23,8 +23,7 @@ exports.courseList = function(done){
 }
 
 exports.studentCourseList = function(id,done){
-    db.get().query('SELECT course_name,course_title,department,student_id AS id FROM course LEFT JOIN (SELECT * FROM course_taken WHERE student_id = ?) AS table_a on course.course_name = table_a.course',id,function(err,rows){
-        if(err){
+    db.get().query('SELECT course.course_name, course.course_title, course.department,course_by_term.term_season,                     course_by_term.term_year, table_a.student_id AS id FROM course LEFT JOIN (SELECT * FROM course_taken WHERE student_id = ?) AS table_a ON course.course_name=table_a.course    INNER JOIN course_by_term ON course.course_name = course_by_term.course_name ;',id,function(err,rows){        if(err){
             console.log(err);
             return done(err)
         }
@@ -32,6 +31,9 @@ exports.studentCourseList = function(id,done){
         
     })
 }
+
+
+
 
 exports.courseInfo = function(course,done){
     console.log(course);

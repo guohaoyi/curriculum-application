@@ -44,12 +44,12 @@ Search:
 <button type="button" class="reset btn btn-default">Reset</button>
 <code id="show-filter"></code>
 <p> Instructions: Click on a row to add the course</P>
-<div class="dropdown">
+<!---<div class="dropdown">
 <button onclick="myFunction()" class="dropbtn">Dropdown</button>
   <div id="myDropdown" class="dropdown-content">
     <a href="">Term</a>
-  </div>
-</div>
+  </div>--->
+<!---</div>-----> 
 <table id="myTable" class="tablesorter">
     <thead>
         <tr>
@@ -57,7 +57,9 @@ Search:
             <th>Course Name</th>
             <th>Course Title</th>
             <th>Department</th>
-        </tr>
+	    <th>Season</th>
+	    <th>Year</th>
+     </tr>
     </thead>
     
 
@@ -86,14 +88,17 @@ Search:
 			}
 
                     var c = result[i].course_name;
-                    c.replace(/ /g,"%20");
+                    console.log(result[i]);
+		    c.replace(/ /g,"%20");
                     $("#myTable").append(
                         "<tr id = '"+i+"'>\
                             <td>"+added+"</td>\
                             <td><a href = '/courses/"+c+"'>"+c+"</a></td>\
                             <td>"+result[i].course_title+"</td>\
                             <td>"+result[i].department+"</td>\
-                        </tr>");
+                            <td>"+result[i].term_season+"</td>\
+			    <td>"+result[i].term_year+"</td>\
+    </tr>");
                     ajaxResult.push(result[i]);
                 }
                 $(":checkbox").change(function(){

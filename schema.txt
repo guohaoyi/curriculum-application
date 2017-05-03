@@ -1,0 +1,67 @@
+CREATE TABLE login_info
+(
+    id int NOT NULL AUTO_INCREMENT,
+    email varchar(255),
+    time_created TIMESTAMP,
+    hashed_pw varchar(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE student
+(
+    id int NOT NULL,
+    first_name varchar(255),
+    last_name varchar(255),
+    major1 varchar(255),
+    major2 varchar(255),
+    minor varchar(255),
+    year varchar(255),
+    INDEX par_ind(id),
+    FOREIGN KEY(id)
+        REFERENCES  login_info(id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE alumni
+();
+
+CREATE TABLE staff
+();
+
+CREATE TABLE comment
+(
+    id int NOT NULL AUTO_INCREMENT,
+    user_id int,
+    time_created TIMESTAMP,
+    PRIMARY KEY (id),
+    INDEX par_ind(user_id),
+        FOREIGN KEY(user_id)
+        REFERENCES  login_info(id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE department
+(
+    division VARCHAR(255),
+    department VARCHAR(255)
+);
+CREATE TABLE course
+(
+    course_name VARCHAR(255),
+    course_title VARCHAR(255),
+    PRIMARY KEY(course_name)
+    
+);
+CREATE TABLE  course_by_term                                                                                              
+(                                                                                                                       
+     term_id INT NOT NULL AUTO_INCREMENT,                                                                                 
+     course_name varchar(255),                                                                                        
+     term_season char(2),                                                                                                 
+     term_year INT,                                                                                                       
+     PRIMARY KEY(term_id),
+     FOREIGN KEY (course_name) REFERENCES course(course_name)
+                                                                                                          
+);                         
+
+
+mysql -u username -p 
