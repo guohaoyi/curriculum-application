@@ -104,6 +104,7 @@ for(var i=0;i<skills.length;i++)
     aggregate[skills[i].skill]=0;
 }
 //console.log(aggregate);
+
 var semesters = [];
 for(var i=0;i<course_skills.length;i++)
 {
@@ -167,7 +168,6 @@ for(var i=0;i<skills.length;i++)
 
 //console.log(semesters,learned_skills,skills);
 //console.log(learned_skills,[total]);
-
 
 //RadarScript(semesters,learned_skills,skills);
 RadarScript(["total"],[total],skills);

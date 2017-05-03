@@ -13,11 +13,10 @@
         //$("#div1").html(result);
 	var imageArray = [];
       var skills=  ["#skill0","#skill1","#skill2"];
-      <!-- for each of the top three skills, create a drop down menu for the 8 skills -->
-      
+<!-- for each of the top three skills, create a drop down menu for the 8 skills -->
       for (var j = 0; j < skills.length; j++)
 			  {
-			  var blankSpace = $('<option class="selectableSkill" value = "none"> Click to Select Skill</option>');
+			  var blankSpace = $('<option class="selectableSkill" value = "none"> </option>');
 			  $(skills[j]).append(blankSpace);
         for (var i = 0; i < result.length ; i ++)
 	{
@@ -97,19 +96,10 @@ height:100px;
 float:left;
 margin-right: 15px;
 }
-#legend tr td
-{
-width: 12%;
-padding: 3px;
-}
-#legend tr td img
-{
-margin: auto;
-display: block;
-}
+
 .score
 {
-   width:72%;
+   width:70%;
 float:left;
 clear:right;
 }
@@ -125,119 +115,26 @@ clear:right;
 .skillWrap .container
 {
 width: 25%;
-font-size: 12px;
-padding: 5px;
 }
 .skillWrap .score
 {
 float: right;
 }
-.container
-{
-border-color: black;
-background-color: white;
-}
-input[type=range] {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 13.8px 0;
-}
-input[type=range]:focus {
-  outline: none;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
-}
-input[type=range]::-webkit-slider-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 42;
-  width: 16px;
-  border-radius: 3px;
-  background: #d0ffff;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -14px;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
-}
-input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
-}
-input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 26px;
-  width: 16px;
-  border-radius: 3px;
-  background: #d0ffff;
-  cursor: pointer;
-}
-input[type=range]::-ms-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-  background: #2a6495;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-}
-input[type=range]::-ms-fill-upper {
-  background: #3071a9;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-}
-input[type=range]::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #d0ffff;
-  cursor: pointer;
-  height: 8.4px;
-}
-input[type=range]:focus::-ms-fill-lower {
-  background: #3071a9;
-}
-input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
-}
 
 </style>
 
-<body ng-app="curriculum" ng-controller = "feedbackController">
+<body>
 
 
     <h1>
     <%= course %>
     </h1>
-    <myHeader> </myHeader>
-    <nav>
     <div class="parent">
-      
     <div class="wrapper">
-      
+   
+
 <p>  Select the top three skills to evaluate. Don't rate the same skill twice. </p>
+<p> A red border indicates duplicates </p>
    <div id="skillInput">
      </div>
 
@@ -246,42 +143,20 @@ input[type=range]:focus::-ms-fill-upper {
 {
      changeSkill('#skill0','#skill1','#skill2');
      
-});
-     $(document).on('change','#skill1', function()
-{
-     changeSkill('#skill1','#skill0','#skill2');
-});
-     $(document).on('change','#skill2' ,function()
-{
-     changeSkill('#skill2','#skill0','#skill1');
-});
-function skillDuplicate(skillName)
-{    
-     var changeSpan = $(skillName + 'Score #skilltext');
-     var changeScore = $(skillName + 'Score #skillrate');
-     console.log($(skillName).val());
-     if (($(skillName).val() == "none") || ($(skillName).val() == null))
-     {
-     changeSpan.text("There is not a skill entered. Please reselect before voting");
-     }
-     else
-     {
-     changeSpan.text("There are duplicate skills selected. Please reselect before voting");
-     }
+
      changeScore.hide();
 }
 function skillShowInformation(skillName)
 {
-     //function to show skill information if it's not a duplicate
-     var changeSpan = $(skillName + 'Score #skilltext');
-     var changeScore = $(skillName + 'Score #skillrate');
+     var changeSpan = $(skillName + 'Score span');
+     var changeScore = $(skillName + 'Score input');
      if ($(skillName).val() == "none")
-     {    
+     {
      changeSpan.text("There is not a skill listed. Please enter a skill to evaluate");
      }
      else
      {
-     
+     $(skillName).css('border-color','transparent');
      changeSpan.text("How much did you develop " + $(skillName).val() + " in this course?");
      changeScore.show();
      }
@@ -289,9 +164,7 @@ function skillShowInformation(skillName)
 function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
 {
      //A function to change the skill text and to test for duplicates
-     //If there are duplicates, it hides the slider and scoring information
-     //displays a message that there is no skill selected or there is a duplicate
-     //Fixing this will display the evaluation for the skill
+     //	  if there are duplicates, make the border of each drop down red
      var changeSpan = $(skillName + 'Score span');
      var changeScore = $(skillName + 'Score input');
     
@@ -310,7 +183,9 @@ function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
      {
      skillShowInformation(skillNotUsed2);
      }
+
      }
+    
 }
      $(document).ready(function()
 {
@@ -336,12 +211,12 @@ function changeSkill(skillName, skillNotUsed1, skillNotUsed2)
       var score = document.createElement("div");
       score.id = "skill"+i+"Score";
       score.className = "score" 
-      score.innerHTML = '<span id="skilltext"> How much of this skill did you learn? </span>'+
-	   '<span id="skillrate"><br> Insufficient (1) <input id="score'+i+
+      score.innerHTML = '<span> How much of this skill did you learn? </span>'+
+	   '<br> A Little (1) <input id="score'+i+
 	   '" type="range" value="1" min="1" max="7" '+
 	   ' style="display:inline-block; vertical-align: middle; width: 60%"'+
-	   ' onchange="updateSliderVal(this.value,\'score'+i+'Val\');"> Thoroughly (7) '+
-	   '<div id="score'+i+'Val" class="right">1</div> </span>'
+	   ' onchange="updateSliderVal(this.value,\'score'+i+'Val\');"> A Lot (7) '+
+	   '<div id="score'+i+'Val" class="right">1</div>'
 ;
       
       wrap.appendChild(cont);
@@ -369,48 +244,120 @@ var updateSliderVal = function(val,target)
     <button onClick="goBack()"> Go Back to Profile </button>
 
     </div>
+    <script src="/lib/dragula.js"> </script>
     <script>
     function goBack()
 {
     window.history.back();
 }
 
+//put into function to avoid namespace leaks
+var dragables = (function()
+{
+    var i;
+    var skills = document.getElementsByClassName("skill"); 
+    var d = [document.getElementById("SkillList")]
+    for(i = 0;i < skills.length ; i++)
+    {
+	d.push(skills[i]);
+    }
+    return d;
+})();
+
+dragula(dragables,
+	{
+	    copy: function(el,source)
+	    {
+		return source===document.getElementById("SkillList");},
+	    accepts: function(el, target)
+	    {
+		
+		return target !== document.getElementById("SkillList");
+	    },
+	    removeOnSpill: function()
+	    {
+                return target !== document.getElementById("SkillList");
+	    }
+	})
+    .on('drop', function(el, target)
+    {
+            onDrop(el,target);
+    })
+    .on('drag', function(el,target)
+	{
+            if( target.classList.contains("skill"))
+            {
+		  $(target).next().hide();
+	    }
+	})
+    .on('cancel',function(el,target)
+	{
+            if( target && target.classList.contains("skill"))
+            {
+		  $(target).next().show();
+	    }
+	})
+;
+
+
+
+var onDrop = function(el,target)
+{
+    //find if there is a copy
+    var selected = $(".skill  .skillIcon"); //get all skills
+
+    var copies = 0;     //one will be us, more than one is bad
+    var i;
+
+    var title = $(el).find("img")[0].title;
+
+    for(i=0; i < selected.length ; i++)
+    {
+
+	if (selected[i].title == title) { copies++ };
+    }
+    if(copies > 1)
+    {
+      
+	el.remove(); //remove yourself --don't allow it to go on..
+        //should give alert, android style toast
+    }
+    else{  //ready to update
+        var scorer = $(target).next();
+	scorer.show();
+	  
+        scorer.find("span").
+		  text("How much " + title + " did you learn in this course?");
+
+        //only allow one child
+        $(target).children().remove();
+        target.appendChild(el);
+    }
+
+
+
+}
+
 
 </script>
     <script>
-      function isAnyBlank()
-      {
-      return (($('#skill0').val() == "none") || ($('#skill1').val() == "none") || ($('#skill2').val() == "none") || ($('#skill0').val() == null) || ($('#skill1').val() == null) || ($('#skill2').val() == null));
-      }
-      function isAnyDuplicates()
-      {
-      return (($('#skill0').val() == $('#skill1').val()) || ($('#skill0').val() == $('#skill2').val()) || ($('#skill1').val() == $('#skill2').val()))
-      }
     $("#myButton").click(function()
       {
    <!-- This function get all the skills in an array and then posts data to the database -->
-   if (isAnyBlank() || isAnyDuplicates())
-   {
-   alert("There is a duplicate or an empty skill. Please adjust before submitting");
-   console.log("blank");
-   }
-   else
-   {
-   var allArray =[];
+	  var allArray =[];
 	  
 	  var i;
 	  for(i=0;i<feedbackSkills;i++)
           {
-	      allArray.push( [ $("#skill"+i).val() || "",
+	      allArray.push( [ $("#skill"+i).find('img')[0].title || "",
 			       $("#score"+i).val()]);
-	  }
+	  } 
 	  console.log(allArray);
 
 	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
-	  //window.location.href = "/courses/<%= course %>";
-		      window.location.href = "/";
-		      }
-		      });
+	  window.location.href = "/courses/<%= course %>";
+
+      })
 $.get('/skillList',function(data,status){
     console.log(data);
 })
