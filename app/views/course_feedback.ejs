@@ -1,6 +1,13 @@
     <html>
     <title> Course Page</title>
+<!--
     <link href="/example.css" rel="stylesheet" type="text/css">
+-->
+<!--
+    <% var title = "Course Feedback"; %>
+-->
+    <% var title = course; %>
+    <%- include partials/header.ejs %> 
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
@@ -227,10 +234,11 @@ input[type=range]:focus::-ms-fill-upper {
 
 <body ng-app="curriculum" ng-controller = "feedbackController">
 
-
+<!--
     <h1>
     <%= course %>
     </h1>
+-->
     <myHeader> </myHeader>
     <nav>
     <div class="parent">
