@@ -7,7 +7,6 @@ var config = require('./config'),
   session = require('express-session'),
   passport = require('passport'),
   flash    = require('connect-flash');
-
 require('./passport')(passport);
 
 module.exports = function(){
@@ -31,7 +30,7 @@ module.exports = function(){
         secret: config.sessionSecret
     }));
 
-    app.set('views', './app/views');
+    app.set('views', './public');
     app.set('view engine','ejs');
 
     app.use(passport.initialize());

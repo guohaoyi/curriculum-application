@@ -232,7 +232,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 </style>
 
-<body ng-app="curriculum" ng-controller = "feedbackController">
+<body>
 
 <!--
     <h1>
@@ -416,7 +416,7 @@ var updateSliderVal = function(val,target)
 
 	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
 	  //window.location.href = "/courses/<%= course %>";
-		      window.location.href = "/";
+		      window.location.href = "/profile";
 		      }
 		      });
 $.get('/skillList',function(data,status){

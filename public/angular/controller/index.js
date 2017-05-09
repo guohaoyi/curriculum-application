@@ -1,12 +1,24 @@
 (function()
 {
     
-    angular.module("userInfo", ["ngRoute"]);
+    angular.module("dataviz", ["ngRoute"]);
     var routeParams = function ($routeProvider) {
 	$routeProvider.when("/", {
-            templateUrl: "profilePageCourseHad.html",
+            templateUrl: "home.html",
 	    
-	}).when("/addCourse", {
+	}).when("/login", {
+	    templateURL: "home.html",
+	})
+	.when("/profile", {
+	    templateURL: "profile.ejs"
+	})
+	.when("/courseSearch",{
+	    templateURL: "course_browser.ejs",
+	})
+	.when("/signup", {
+	    templateURL : "home.html",
+	})
+	    .when("/addCourse", {
             templateUrl: "addCourse.html"
 	});
     };
@@ -30,7 +42,12 @@
 
 	
 }
-    
+    var userInfo = function()
+    {
+	return{
+	    templateURL: "profilePageCoursesHad.html"
+	}
+    }
 var profileController = function($scope, courseServices, $http, $location) {
     console.log(courseServices);
     courseServices.getUserInfo().then(function(message)
@@ -204,7 +221,8 @@ var profileController = function($scope, courseServices, $http, $location) {
     }
 
 };
-    angular.module("userInfo")
+    angular.module("dataviz")
+	.directive("userInfo", userInfo)
 	.controller("profileController", profileController)
         .config(['$routeProvider',routeParams])
 	.service("courseServices", courseServices);
