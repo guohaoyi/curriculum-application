@@ -1,6 +1,5 @@
-<!-- views/index.ejs -->
-<!doctype html>
-<html ng-app>
+
+
 
 <head>
     <title>Welcome</title>
@@ -40,15 +39,16 @@
     </style>
 </head>
 
-<body>
-    <div class="container">
+
+    <div class="container" ng-controller= "homeController">
       <div class="left"> </div>
+      
       <div class="right" style="opacity:.85">
         <div class="jumbotron text-center">
             <h1>Welcome!</h1>
             <p>Login or Register with:</p>
-            <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
-            <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup for an Account</a>
+            <a ng-click="goLogin()" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
+            <a ng-click="goSignup()" class="btn btn-default"><span class="fa fa-user"></span> Signup for an Account</a>
 	    <p> Centre Links: </p>
 	    <a href="https://www.centre.edu"><p> Centre Homepage</p> </a>
 	    <a href="https://centrenet.centre.edu"> Centrenet </a>
@@ -57,6 +57,5 @@
 	</div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-</body>
 
-</html>
+

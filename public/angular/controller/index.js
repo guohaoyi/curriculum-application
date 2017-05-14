@@ -1,15 +1,33 @@
 (function()
 {
+    console.log("I am here. I am executing");
+    angular.module("dataviz", ["ngRoute"]);
     
-    angular.module("userInfo", ["ngRoute"]);
-    var routeParams = function ($routeProvider) {
-	$routeProvider.when("/", {
-            templateUrl: "profilePageCourseHad.html",
-	    
-	}).when("/addCourse", {
-            templateUrl: "addCourse.html"
-	});
-    };
+    var routingConfig = function($routeProvider)
+    {
+
+	$routeProvider
+	.when("/",
+	      {
+			templateUrl:"index.ejs",
+		  controller:"homeController"
+		    })
+	    .when("/login",
+	            {
+			  templateUrl:"login.ejs",
+			controller: "loginController"
+			      })
+	.when("/signup",
+	            {
+			  templateUrl:"signup.ejs",
+			  controller:"signupController"
+			      })
+	.when("/profile",
+	      {
+		  templateURL: "home.ejs"
+	      });
+    }
+
     var courseServices = function($http)
     {
 	var user = function()
@@ -21,17 +39,86 @@
 	{
 	       return $http.get('/courseList');
 	    }
-
+	var login = function(user, password)
+	{
+	   
+	    return $http.post('/login', {user: user, password: password});
+	}
+	var signup = function(user, password)
+	{
+	    return $http.post('/signup', {user: user, password: password});
+	}
 	return {
 	        getUserInfo:user,
 	        
-	    getCourses:course    
+	    getCourses:course,
+	    login: login,
+	    signup: signup
 	}
 
 	
 }
-    
-var profileController = function($scope, courseServices, $http, $location) {
+    var userInfo = function()
+    {
+	return{
+	    templateURL: "profilePageCoursesHad.html"
+	}
+    }
+    var homeController = function($scope, $location)
+    {
+	console.log("here");
+	$scope.goLogin = function()
+	{
+	    console.log("yo");
+	    $location.path("/login");
+	}
+	$scope.goSignup = function()
+	{
+	    $location.path("/signup");
+	}
+    }
+    var loginController = function($scope, courseServices, $location)
+    {
+	console.log(courseServices);
+	$scope.goSignup = function()
+	{
+	    $location.path("/signup");
+	}
+	$scope.goHome = function()
+	{
+	    console.log("HI");
+	    $location.path("/");
+	}
+	$scope.loginButton = function()
+	{
+	    console.log("here");
+	    console.log($scope.login.user);
+	    console.log($scope.login.password);
+	    courseServices.login($scope.login.user,$scope.login.password)
+		.then(
+		    function(message)
+		      {
+			  console.log(message);
+		      });
+	}
+	
+    }
+    var signupController = function($scope,courseServices, $location)
+    {
+	$scope.goHome = function()
+	{
+	    $location.path("/");
+	}
+	$scope.goLogin = function()
+	{
+	    $location.path("/login");
+	}
+	$scope.signup = function()
+	{
+	    courseServices.signup();
+	}
+}
+    var profileController = function($scope, courseServices, $http, $location) {
     console.log(courseServices);
     courseServices.getUserInfo().then(function(message)
 				   {
@@ -204,9 +291,14 @@ var profileController = function($scope, courseServices, $http, $location) {
     }
 
 };
-    angular.module("userInfo")
+    angular.module("dataviz")
+	.directive("userInfo", userInfo)
 	.controller("profileController", profileController)
-        .config(['$routeProvider',routeParams])
+	.controller("loginController", loginController)
+	.controller("signupController", signupController)
+        .controller("homeController", homeController)
+	.config(['$routeProvider',routingConfig])
+    
 	.service("courseServices", courseServices);
 })();
 
