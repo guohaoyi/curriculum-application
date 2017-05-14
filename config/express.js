@@ -37,7 +37,7 @@ module.exports = function(){
     app.use(passport.session());
     app.use(flash());
     
-    require('../app/routes/index.server.routes.js')(app);
+//    require('../app/routes/index.server.routes.js')(app);
     require('../app/routes/skills.server.routes.js')(app);
     require('../app/routes/general.server.routes.js')(app);
     require('../app/routes/users.server.routes.js')(app,passport);

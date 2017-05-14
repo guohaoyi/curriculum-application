@@ -1,30 +1,48 @@
 var User = require('../../app/controllers/users.server.controller');
 var Course = require('../../app/controllers/courses.server.controller');
 module.exports = function (app,passport) {
-    app.get('/login', function (req, res) {
+/*    app.get('/login', function (req, res) {
 
         // render the page and pass in any flash data if it exists
         res.render('login.ejs', {
             message: req.flash('loginMessage')
         });
     });
-
+*/
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-            successRedirect: '/profile', // redirect to the secure profile section
-            failureRedirect: '/login', // redirect back to the signup page if there is an error
-            failureFlash: true // allow flash messages
-        }),
-        function (req, res) {
-            console.log("hello");
+    app.post('/login', function(req, res, next) {
+  passport.authenticate('local-login', function(err, user, info) {
+      console.log(req.body);
+      res.contentType('json');
+    if (err)
+      {
+          console.log("Here is the error");
+          res.send( { message:"error" })
+      }
+    if (!user) {
+        console.log("No! Here is the error");
+        res.send({message: "error"});
+        //return res.redirect('/login');
+    }
+    req.logIn(user, function(err) {
+        
+      if (err)
+        {
+            console.log("No really... here's the error");
+            
 
-            if (req.body.remember) {
-                req.session.cookie.maxAge = 1000 * 60 * 3;
-            } else {
-                req.session.cookie.expires = false;
-            }
-            res.redirect('/');
-        });
+            //return next(err);
+        }
+        else
+        {
+            console.log("It's successful man");
+            res.status(200).send({message:"successful"});
+        }
+        //return res.redirect('/users/' + user.username);
+    });
+  })(req, res, next);
+});
+
 
     // =====================================
     // SIGNUP ==============================

@@ -1,0 +1,100 @@
+
+  <% var title = "Your Profile"; %>
+  <%- include partials/header.ejs %>
+
+  <style>
+    .userInfo
+    {
+    float: left;
+    width: 45%;
+    
+    }
+    #RadarChart
+    {
+    float: right;
+    width: 45%;
+    }
+    @media only screen
+    and (min-device-width: 250px)
+    and (max-device-width: 900px)
+    {
+    .userInfo
+    {
+    width: 100%;
+    
+    }
+    #RadarChart
+    {
+    float: none;
+    width: 100%;
+    }
+    #RadarChart #chart
+    {
+    width: 75%;
+    }
+    }
+  </style>
+  <div class="wrapper" ng-app="dataviz" ng-controller="profileController" > 
+    <div class="userInfo aside">
+      <div class="well w3-closenav w3-right w3-xlarge">
+	<div id="userInfo" style="display: block;">
+	  <h4>Select Terms You Want To See:</h4>
+<!--
+<h3>Courses:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  <a href="/courseSearch" class="btn btn-default btn-sm">Add</a>
+</h3>
+-->
+<style>
+.checks
+{
+display: inline-block;
+padding: 5px;
+}
+.checks span
+{
+text-align: center;
+}
+</style>
+<table>
+  <tr >
+    <div ng-repeat = "x in semesters" class = "checks"><input type="checkbox" ng-click = "filter()"><span>{{x}}</span></div>
+  </tr>
+  <br>
+ <button ng-click="restore()"> Show All Courses </button>
+</table>
+<table>
+  <td><b>Course Name</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Semester Taken</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Evaluation Link</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Last Evaluated</b>&nbsp&nbsp&nbsp&nbsp</td>
+  <tr ng-repeat = "x in currentcourses">
+    <td><a ng-href="{{'/courses/'+x.course }}" ng-click = "saveCourse()">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
+    <td>{{x.season + x.year}}&nbsp&nbsp&nbsp</td>
+    <td><a ng-href="{{'/course_feedback/'+x.course }}">evaluate</a>&nbsp&nbsp&nbsp</td>
+  </tr>
+</table>
+	</div>
+      </div>
+    </div>
+
+    <div id="RadarChart" >
+      <div id="semester info"></div>
+      <div id="chart"></div>
+      <div id="skill_legend">
+	<span class="notice"> This graph is a summary of {{courses.length}} course(s)</span>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+  <script src="/angular/controller/index.js"> </script>
+  
+
+  <!-- scripts to show the radar charts, needs jquery loaded first -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+  <script src="/lib/radar_chart.js"></script> 
+  <script src="/lib/radar_script.js"></script>
+  <script src="/lib/profile_script.js"></script>
+  
+  <%- include partials/footer.ejs %>
