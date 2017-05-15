@@ -2,31 +2,41 @@
 {
     console.log("I am here. I am executing");
     angular.module("dataviz", ["ngRoute"]);
-    
-    var routingConfig = function($routeProvider)
+	   var routingConfig = function($routeProvider)
     {
 
 	$routeProvider
-	.when("/",
+	    .when("/",
 	      {
 			templateUrl:"index.ejs",
-		  controller:"homeController"
+			controller:"homeController"
 		    })
 	    .when("/login",
-	            {
-			  templateUrl:"login.ejs",
-			controller: "loginController"
-			      })
-	.when("/signup",
-	            {
-			  templateUrl:"signup.ejs",
-			  controller:"signupController"
-			      })
-	.when("/profile",
-	      {
-		  templateURL: "home.ejs"
-	      });
-    }
+		  {
+		      templateUrl:"login.ejs",
+		      controller:"loginController"
+		    })
+	    .when("/profile",
+		  {
+		      templateUrl:"profile.ejs",
+		      controller:"profileController"
+		  })
+	    .when("/signup",
+		  {
+                      templateUrl:"signup.ejs",
+                      controller:"signupController"
+                  })
+	    .when("/courseSearch",
+                  {
+                      templateUrl:"course_browser.ejs",
+                      controller:"courseSearchController"
+                  })
+
+
+	
+	
+	    .otherwise({redirectTo:"/badlink"});
+    };
 
     var courseServices = function($http)
     {
@@ -41,35 +51,48 @@
 	    }
 	var login = function(user, password)
 	{
+
 	   
-	    return $http.post('/login', {user: user, password: password});
+	    return $http.post('/login', {email: user, password: password});
 	}
 	var signup = function(user, password)
 	{
-	    return $http.post('/signup', {user: user, password: password});
+	    return $http.post('/signup', {email: user, password: password});
+	}
+	var profilePage = function()
+	{
+	    
+	    return $http.get('/profile');
 	}
 	return {
 	        getUserInfo:user,
 	        
 	    getCourses:course,
 	    login: login,
-	    signup: signup
+	    signup: signup,
+	    profilePage: profilePage
 	}
-
 	
 }
-    var userInfo = function()
+    
+    var myHeader = function()
     {
-	return{
-	    templateURL: "profilePageCoursesHad.html"
-	}
+	return {
+	        templateUrl:"header.ejs"
+	        };
     }
+   var myFooter = function()
+    {
+        return {
+                templateUrl:"footer.ejs"
+                };
+    }
+//controllers
     var homeController = function($scope, $location)
     {
 	console.log("here");
 	$scope.goLogin = function()
 	{
-	    console.log("yo");
 	    $location.path("/login");
 	}
 	$scope.goSignup = function()
@@ -86,22 +109,28 @@
 	}
 	$scope.goHome = function()
 	{
-	    console.log("HI");
+	    
 	    $location.path("/");
 	}
 	$scope.loginButton = function()
 	{
-	    console.log("here");
-	    console.log($scope.login.user);
-	    console.log($scope.login.password);
-	    courseServices.login($scope.login.user,$scope.login.password)
+	   
+	    courseServices.login($scope.login.email,$scope.login.password)
 		.then(
 		    function(message)
 		      {
-			  console.log(message);
+			  console.log("I am actually getting here");
+			  if (message.data.message == "successful")
+			      {
+				  $location.path("/profile");
+			      }
+			  else
+			      {
+				  
+				  $location.path("/login");
+			      }
 		      });
 	}
-	
     }
     var signupController = function($scope,courseServices, $location)
     {
@@ -113,15 +142,44 @@
 	{
 	    $location.path("/login");
 	}
-	$scope.signup = function()
+	$scope.signupButton = function()
 	{
-	    courseServices.signup();
+	    console.log($scope.signup.email);
+	    console.log($scope.signup.password);
+	    courseServices.signup($scope.signup.email, $scope.signup.password)
+		.then(function(message)
+		      {
+			  if(message.data.message = "successful")
+			  {
+			      $location.path("/profile");
+			  }
+			  else
+			  {
+			      $location.path("/signup");
+			  }
+		      })
 	}
-}
+    }
+    
     var profileController = function($scope, courseServices, $http, $location) {
-    console.log(courseServices);
-    courseServices.getUserInfo().then(function(message)
-				   {
+	console.log("At the profile page");
+	courseServices.profilePage();
+	$scope.name = "Your Profile"
+	console.log($location.url());
+	$scope.goSearch = function()
+	{
+	    $location.path("/courseSearch");
+	}
+	$scope.goProfile = function()
+	{
+	    $location.path("/profile");
+	}
+	$scope.goHome = function()
+	{
+	    $location.path("/");
+	}
+	courseServices.getUserInfo().then(function(message)
+				      {
 				       var userData = message.data;
 				       $scope.courses = userData[0];
 				       $scope.skills = userData[0];
@@ -144,40 +202,41 @@
 						 message.data[i].id = i;
 					     }
 					 $scope.courseList = message.data;
-				     })
-   
-    
-    
-    $scope.filter = function()
-    {
-	var divs = $('.checks');
-	var courses = [];
-	var semesters = [];
+				     });
 	
-	for (var i = 0; i < divs.length; i ++)
-	        {
+	
+	
+	$scope.filter = function()
+	{
+	    var divs= $('.checks');
+	    console.log($scope.selected);
+	    var courses = [];
+	    var semesters = [];
+	    
+	    for (var i = 0; i < divs.length; i ++)
+	    {
+		
+		var divchildren = $(divs[i]).children();
+		if (divchildren[0].checked)
+		{
 		    
-		    var divchildren = $(divs[i]).children();
-		    if (divchildren[0].checked)
+		    semesters.push($(divchildren[1]).text());
+		    for (var j = 0; j < $scope.courses.length; j++)
 		    {
 			
-			semesters.push($(divchildren[1]).text());
-			for (var j = 0; j < $scope.courses.length; j++)
+			var term = $scope.courses[j].season.replace(/\s/g,'') + " " + $scope.courses[j].year;
+			if ($(divchildren[1]).text()== term)
 			{
-			    
-			    var term = $scope.courses[j].season.replace(/\s/g,'') + " " + $scope.courses[j].year;
-			    if ($(divchildren[1]).text()== term)
-			    {
-				courses.push($scope.courses[j]);
-			    }
+			    courses.push($scope.courses[j]);
 			}
 		    }
 		}
+	    }
 	
-	$scope.currentcourses = [];
-	$scope.currentcourses = courses;
-	generateGraph(semesters);
-    }
+	    $scope.currentcourses = [];
+	    $scope.currentcourses = courses;
+	    generateGraph(semesters);
+	}
     
     $scope.restore = function()
     {
@@ -289,14 +348,33 @@
 	$('#skill_legend span').text( "This graph is a summary of " + $scope.currentcourses.length + " course(s)");
 	RadarScript(["total"],[total],skills);
     }
-
+	
 };
+	var courseSearchController = function($scope, courseServices, $http, $location)
+	{
+	    $scope.name = "Course Browser";
+	    $scope.goSearch = function()
+            {
+            $location.path("/courseSearch");
+        }
+            $scope.goProfile = function()
+            {
+            $location.path("/profile");
+        }
+            $scope.goHome = function()
+            {
+            $location.path("/");
+        }
+	    
+	}
     angular.module("dataviz")
-	.directive("userInfo", userInfo)
 	.controller("profileController", profileController)
 	.controller("loginController", loginController)
 	.controller("signupController", signupController)
         .controller("homeController", homeController)
+	.controller("courseSearchController", courseSearchController)
+	.directive("myFooter", myFooter)
+        .directive("myHeader", myHeader)
 	.config(['$routeProvider',routingConfig])
     
 	.service("courseServices", courseServices);

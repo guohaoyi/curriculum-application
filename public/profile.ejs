@@ -1,11 +1,17 @@
-<!-- views/profile.ejs -->
-<!doctype html>
-<html>
+<my-header> </my-header>
+	  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
-  <% var title = "Your Profile"; %>
-  <%- include partials/header.ejs %>
+    <!-- loadfontawesome -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+           <script src="/lib/radar_chart.js"></script>
+          <script src="/lib/radar_script.js"></script>
+    <script src="/lib/profile_script.js"></script>
 
-  <style>
+   <script src="http://d3js.org/d3.v3.min.js"></script>
+
+	  <style>
     .userInfo
     {
     float: left;
@@ -60,7 +66,7 @@ text-align: center;
 </style>
 <table>
   <tr >
-    <div ng-repeat = "x in semesters" class = "checks"><input type="checkbox" ng-click = "filter()"><span>{{x}}</span></div>
+    <div ng-repeat = "x in semesters"  class = "checks"><input ng-model="selected" type="checkbox"  ng-click = "filter()"><span>{{x}}</span></div>
   </tr>
   <br>
  <button ng-click="restore()"> Show All Courses </button>
@@ -88,17 +94,4 @@ text-align: center;
       </div>
     </div>
   </div>
-
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-  <script src="/angular/controller/index.js"> </script>
-  
-
-  <!-- scripts to show the radar charts, needs jquery loaded first -->
-  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-  <script src="/lib/radar_chart.js"></script> 
-  <script src="/lib/radar_script.js"></script>
-  <script src="/lib/profile_script.js"></script>
-  
-  <%- include partials/footer.ejs %>
-</html>
+<my-footer> </my-footer>

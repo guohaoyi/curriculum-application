@@ -16,32 +16,34 @@ module.exports = function (app,passport) {
       res.contentType('json');
     if (err)
       {
-          console.log("Here is the error");
+	  console.log("error");
           res.send( { message:"error" })
+	  
       }
     if (!user) {
         console.log("No! Here is the error");
-        res.send({message: "error"});
+        res.send({message:"error"});
         //return res.redirect('/login');
     }
+      else{
     req.logIn(user, function(err) {
-        
+        console.log(user);
       if (err)
         {
             console.log("No really... here's the error");
-            
-
-            //return next(err);
+	    res.send({message : "error"});
         }
         else
         {
-            console.log("It's successful man");
-            res.status(200).send({message:"successful"});
+            console.log("here");
+            res.send({message:"successful"});
+	    
         }
+    })
         //return res.redirect('/users/' + user.username);
-    });
+    };
   })(req, res, next);
-});
+})	   
 
 
     // =====================================
@@ -56,11 +58,18 @@ module.exports = function (app,passport) {
     });
 
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/signup', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+    app.post('/signup',passport.authenticate('local-signup'),  function(req, res, err)
+	     {
+		 console.log(req.body);
+		 console.log(req.user);
+		 console.log("Here I am, Mr. Universe");
+		 console.log(req.isAuthenticated());
+		 console.log(err);
+		 if (req.isAuthenticated())
+		     {
+			 res.send({message: "successful"});
+		     }
+	});
 
     // =====================================
     // PROFILE SECTION =========================
@@ -68,7 +77,7 @@ module.exports = function (app,passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function (req, res) {
-        res.render('profile.ejs', {
+        res.send( {
             user: req.user // get the user out of session and pass to template
         });
     });
