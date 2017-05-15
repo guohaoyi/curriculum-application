@@ -1,4 +1,6 @@
 <my-header> </my-header>
+<link rel="stylesheet" href="/css/theme.metro-dark.css"> 
+<link rel="stylesheet" href="/css/bootstrap.min.css"> 
 
 <!--
 <title> Course Browsing</title>
@@ -32,11 +34,8 @@
 
 
 
-
-<!----Search: <input type="search" class="search" data-column="all" placeholder="Search here"><sup class="results xsmall"></sup>
-<button type="button" class="reset btn btn-default">Reset</button>-->
 <code id="show-filter"></code>
-<p> Instructions: Filter Courses by Name, Title, Department, Season and/or Year. </P>
+<p> Instructions: Click on a row to add the course</P>
 <!---<div class="dropdown">
 <button onclick="myFunction()" class="dropbtn">Dropdown</button>
   <div id="myDropdown" class="dropdown-content">
@@ -46,13 +45,12 @@
 <table id="myTable" class="tablesorter">
     <thead>
         <tr>
-            <th>Evaluate Course</th>
-            <th>View Course</th>
+            <th>Add</th>
+            <th>Course Name</th>
             <th>Course Title</th>
             <th>Department</th>
-	    <th>Season</th>
-	    <th>Year</th>
-
+	        <th>Season</th>
+		    <th>Year</th>
      </tr>
     </thead>
     
@@ -60,6 +58,7 @@
 </table>
 </body>
 
+<script src="/lib/jquery-3.1.1.min.js"></script>  
 <script>
 
     var courseSelecting = "";
@@ -71,19 +70,17 @@
             $(document).ready(function() {
    
                 $("#myTable").append("<tbody>");
-                
-
-                  for(var i = 0;i<result.length;i++){
+                for(var i = 0;i<result.length;i++){
                     if(result[i].id){
 
                         var added = "<span class= 'label label-success'>Evaluated</span>"
                     }
                     else{
                          var added = "<span class='label label-primary'>Evaluate</span>" 
-			}
+			     	   }
 
                     var c = result[i].course_name;
-		    c.replace(/ /g,"%20");
+		    	    c.replace(/ /g,"%20");
                     $("#myTable").append(
                         "<tr id = '"+i+"'>\
                             <td>"+added+"</td>\
@@ -91,7 +88,7 @@
                             <td>"+result[i].course_title+"</td>\
                             <td>"+result[i].department+"</td>\
                             <td>"+result[i].term_season+"</td>\
-			    <td>"+result[i].term_year+"</td>\
+					    <td>"+result[i].term_year+"</td>\
     </tr>");
                     ajaxResult.push(result[i]);
                 }
@@ -217,11 +214,17 @@
 
 
 
-<!--<%- include partials/footer.ejs %> -->
+<script src="/lib/tablesorter/js/jquery.tablesorter.js"></script>
 
-<!--
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
--->
+
+
+<script src="/lib/tablesorter/js/widgets/widget-storage.js"></script>
+
+<script src="/lib/bootstrap.min.js"></script>
+
+
+<script src="/lib/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
 <script>
 
 
@@ -230,25 +233,25 @@
   {
   width = parseInt(width);
   if (width < 600) 
-	      {
+        {
 	      $("#size-stylesheet").attr("href", "/css/mobile.css");
-	      } 
-	      else 
-	      {
-	      $("#size-stylesheet").attr("href", "/css/desktop.css");
-	      $("#myNav").show();
-	      }
-	      }
-	      
-	      $(function() 
+	            } 
+		          else 
+			        {
+				      $("#size-stylesheet").attr("href", "/css/desktop.css");
+				            $("#myNav").show();
+					          }
+						        }
+							      
+							            $(function() 
               {
-	      adjustStyle($(this).width());
-	      //be sure to react if there is a change in the future
+	            adjustStyle($(this).width());
+		          //be sure to react if there is a change in the future
               $(window).resize(function() 
               {
-	      <!--console.log("width",$(this).width());--->
-	      adjustStyle($(this).width());
-	      });
-	      });
-	      </script>
+	            console.log("width",$(this).width());
+		          adjustStyle($(this).width());
+			        });
+				      });
+				            </script>
 <my-footer></my-footer>

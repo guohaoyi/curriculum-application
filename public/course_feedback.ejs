@@ -1,10 +1,4 @@
-    <html>
-    <title> Course Page</title>
-<!--
-    <link href="/example.css" rel="stylesheet" type="text/css">
--->
-    <% var title = course; %>
-    <%- include partials/header.ejs %>
+<my-header> </my-header>
     <script src="/lib/jquery-3.1.1.min.js"></script>
     <script>
       var feedbackSkills = 3;
@@ -144,91 +138,8 @@ background-color: white;
 overflow:hidden;
 }
 
-input[type=range] {
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 13.8px 0;
-}
-input[type=range]:focus {
-  outline: none;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
-}
-input[type=range]::-webkit-slider-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 42;
-  width: 16px;
-  border-radius: 3px;
-  background: #d0ffff;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -14px;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
-}
-input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #3071a9;
-  border-radius: 1.3px;
-  border: 0.2px solid #010101;
-}
-input[type=range]::-moz-range-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 26px;
-  width: 16px;
-  border-radius: 3px;
-  background: #d0ffff;
-  cursor: pointer;
-}
-input[type=range]::-ms-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-  background: #2a6495;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-}
-input[type=range]::-ms-fill-upper {
-  background: #3071a9;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-}
-input[type=range]::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #d0ffff;
-  cursor: pointer;
-  height: 8.4px;
-}
-input[type=range]:focus::-ms-fill-lower {
-  background: #3071a9;
-}
-input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
-}
+
+
 
 </style>
 
@@ -373,7 +284,7 @@ var updateSliderVal = function(val,target)
 
     </div>
 
-    <button id="myButton"> Submit</button>
+    <button id="myButton" ng-click="registerData()"> Submit</button>
     <button onClick="goBack()"> Go Back to Profile </button>
 
     </div>
@@ -385,45 +296,10 @@ var updateSliderVal = function(val,target)
 
 
 </script>
-    <script>
-      function isAnyBlank()
-      {
-      return (($('#skill0').val() == "none") || ($('#skill1').val() == "none") || ($('#skill2').val() == "none") || ($('#skill0').val() == null) || ($('#skill1').val() == null) || ($('#skill2').val() == null));
-      }
-      function isAnyDuplicates()
-      {
-      return (($('#skill0').val() == $('#skill1').val()) || ($('#skill0').val() == $('#skill2').val()) || ($('#skill1').val() == $('#skill2').val()))
-      }
-    $("#myButton").click(function()
-      {
-   <!-- This function get all the skills in an array and then posts data to the database -->
-   if (isAnyBlank() || isAnyDuplicates())
-   {
-   alert("There is a duplicate or an empty skill. Please adjust before submitting");
-   console.log("blank");
-   }
-   else
-   {
-   var allArray =[];
-	  
-	  var i;
-	  for(i=0;i<feedbackSkills;i++)
-          {
-	      allArray.push( [ $("#skill"+i).val() || "",
-			       $("#score"+i).val()]);
-	  }
-	  console.log(allArray);
-
-	  $.post("/addFeedBack",{data:allArray,course: "<%= course %>"});
-	  //window.location.href = "/courses/<%= course %>";
-		      window.location.href = "/profile";
-		      }
-		      });
+  <script>
 $.get('/skillList',function(data,status){
 
 })
 generateButtons();
 </script>
-<%- include partials/footer.ejs %>
-</body>
-</html>
+<my-footer></my-footer>

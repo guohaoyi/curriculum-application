@@ -1,9 +1,4 @@
-<!-- views/course.ejs -->
-<!doctype html>
-<html>
-<% var title = "Course Page"; %>
-<%- include partials/header.ejs %>
-
+<my-header> </my-header>
   <script>
     (function(d, s, id)
     {
@@ -20,14 +15,14 @@
 <div class = "CourseInfo aside" >
   <div  onclick="user_toggle()"
 	class="well w3-closenav w3-right w3-xlarge"> 
-    <h3> Course Name: <%= course.course_name %> </h3>
+    <h3> {{title}} </h3>
     <strong> See Course Description </strong>
 
   <div id="userInfo"> 
 
     <h3> Description: </h3>
     <p>
-      <%= course.description %><br>
+      {{description}}<br>
     </p>
   </div>
 </div>
@@ -56,11 +51,7 @@
 
         <script src="/lib/radar_chart.js"></script>
 	<script src="/lib/radar_script.js"></script>
-        <script src="/lib/course_script.js"></script>
+        
 
 
-
-
-</body>
- <%- include partials/footer.ejs %>
-</html>
+<my-footer> </my-footer>

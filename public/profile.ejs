@@ -77,9 +77,9 @@ text-align: center;
   <td><b>Evaluation Link</b>&nbsp&nbsp&nbsp</td>
   <td><b>Last Evaluated</b>&nbsp&nbsp&nbsp&nbsp</td>
   <tr ng-repeat = "x in currentcourses">
-    <td><a ng-href="{{'/courses/'+x.course }}" ng-click = "saveCourse()">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
+    <td><a  ng-click = "gotoCourse(x)">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
     <td>{{x.season + x.year}}&nbsp&nbsp&nbsp</td>
-    <td><a ng-href="{{'/course_feedback/'+x.course }}">evaluate</a>&nbsp&nbsp&nbsp</td>
+    <td><a ng-click="goCourse(x)">evaluate</a>&nbsp&nbsp&nbsp</td>
   </tr>
 </table>
 	</div>

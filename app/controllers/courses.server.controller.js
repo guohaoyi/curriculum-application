@@ -4,10 +4,7 @@ exports.showCoursePage = function(req,res){
     //console.log(course);
     Course.showCourse(course,function(err,result){
         //console.log(result);
-        res.render('course.ejs',{
-            course:result[0]
-            //skills:JSON.stringify(result[1])
-        });
+        res.send(result);
     });
 }
 exports.showCourseList = function(req,res){

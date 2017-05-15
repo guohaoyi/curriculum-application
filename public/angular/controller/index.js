@@ -31,6 +31,18 @@
                       templateUrl:"course_browser.ejs",
                       controller:"courseSearchController"
                   })
+	    .when("/course_feedback/:course",
+                  {
+                      templateUrl:"course_feedback.ejs",
+                      controller:"evaluationController"
+                  })
+	    .when("/courses/:course",
+               {
+                      templateUrl:"course.ejs",
+                      controller:"coursesController"
+                  })
+
+	
 
 
 	
@@ -47,6 +59,7 @@
 
 	var course = function()
 	{
+	 
 	       return $http.get('/courseList');
 	    }
 	var login = function(user, password)
@@ -64,13 +77,29 @@
 	    
 	    return $http.get('/profile');
 	}
+	var studentCourseList = function()
+	{
+	    return $http.get('/studentCourseList');
+	}
+	var course  = function(name)
+	{
+	    
+	    return $http.get('courses/'+name);
+	}
+	var courseInfo = function(name)
+	{
+	    return $http.get('courses/'+name+'/info');
+	}
 	return {
 	        getUserInfo:user,
 	        
 	    getCourses:course,
 	    login: login,
 	    signup: signup,
-	    profilePage: profilePage
+	    profilePage: profilePage,
+	    studentCourseList: studentCourseList,
+	    course: course,
+	    courseInfo: courseInfo
 	}
 	
 }
@@ -192,7 +221,7 @@
 				       }
 				       $scope.semesters = semesters;
 				       $scope.currentcourses = userData[0];
-				       
+					  generateGraph(semesters);
 				   })
     
     courseServices.getCourses().then(function(message)
@@ -287,6 +316,9 @@
 	var course_skills = null;
 	getAllSkills()
 	getCourseSkills();
+	console.log("here are the skills");
+	console.log(skills);
+	console.log(course_skills);
 	var aggregate = [];
 	
 	for(var i=0;i<skills.length;i++)
@@ -348,11 +380,21 @@
 	$('#skill_legend span').text( "This graph is a summary of " + $scope.currentcourses.length + " course(s)");
 	RadarScript(["total"],[total],skills);
     }
-	
+//	uncheckAll();
+	$scope.goCourse = function(name)
+	{
+	    
+	    $location.path("/course_feedback/"+name.course);
+	}
+	$scope.gotoCourse = function(name)
+	{
+	    $location.path("/courses/"+name.course);
+	}
 };
 	var courseSearchController = function($scope, courseServices, $http, $location)
 	{
 	    $scope.name = "Course Browser";
+	    console.log(courseServices.studentCourseList());
 	    $scope.goSearch = function()
             {
             $location.path("/courseSearch");
@@ -367,12 +409,131 @@
         }
 	    
 	}
+    var evaluationController = function($scope, courseServices, $http, $location)
+    {
+	var URL = $location.url().split("%20");
+	
+	$scope.name = URL[0].split("/")[2] + " " + URL[1];
+	$scope.registerData = function()
+	{
+	      function isAnyBlank()
+      {
+      return (($('#skill0').val() == "none") || ($('#skill1').val() == "none") || ($('#skill2').val() == "none") || ($('#skill0').val() == null) || ($('#skill1').val() == null) || ($('#ski\
+ll2').val() == null));
+      }
+      function isAnyDuplicates()
+      {
+      return (($('#skill0').val() == $('#skill1').val()) || ($('#skill0').val() == $('#skill2').val()) || ($('#skill1').val() == $('#skill2').val()))
+      }
+
+	      if (isAnyBlank() || isAnyDuplicates())
+   {
+   alert("There is a duplicate or an empty skill. Please adjust before submitting");
+   console.log("blank");
+   }
+   else
+   {
+   var allArray =[];
+
+          var i;
+          for(i=0;i<feedbackSkills;i++)
+          {
+              allArray.push( [ $("#skill"+i).val() || "",
+                               $("#score"+i).val()]);
+          }
+          console.log(allArray);
+
+          $.post("/addFeedBack",{data:allArray,course: $scope.name});
+          //window.location.href = "/courses/<%= course %>";
+                      window.history.back();
+                      
+   }
+	}
+    }
+    var coursesController = function($scope, courseServices, $http, $location)
+    {
+	$scope.goSearch = function()
+	{
+	        $location.path("/courseSearch");
+	    }
+	$scope.goProfile = function()
+	{
+	        $location.path("/profile");
+	    }
+	$scope.goHome = function()
+	{
+	        $location.path("/");
+	    }
+       var URL = $location.url().split("%20");
+
+        $scope.name = URL[0].split("/")[2] + " " + URL[1];
+	courseServices.course($scope.name)
+	    .then(function(message)
+		  {
+		      
+		      $scope.title = message.data[0].course_title;
+		      $scope.description = message.data[0].description;
+		  });
+	courseServices.courseInfo($scope.name)
+	    .then(function(message)
+		  {
+		      console.log(message);
+		      var skills = [],course_skills = [];
+		      var votes=0;
+		      function getAllSkills()
+		      {
+			  return $.ajax({
+			      url: '/skillList',
+			      type: 'GET',
+			      async: false,
+			      success: function(result){
+				  skills = result;
+			      }
+			  });
+		      }
+		     
+		      function getCourseSkills()
+		      {
+			  return $.ajax({
+			      url: '/courses/'+$scope.name+'/info',
+			      type: 'GET',
+			      async: false,
+			      success: function(result){
+				  console.log(result);
+				  votes = result[0].votes;
+				  for(var i=0;i<result.length;i++)
+				  {
+				      course_skills.push({axis:result[i].skill ,value:result[i].score });
+				  }
+			      }
+			  });
+		      }
+
+		      getAllSkills();
+		      getCourseSkills();
+		      console.log(skills);
+		      console.log(course_skills);
+		      console.log(votes);
+		      if(skills.length>0)
+		      {
+			  RadarScript(["Evaluated Skills"],[course_skills],skills);
+			  //    var votes = course_skills[0].votes;
+			  var s = $('<span class="notice">This graph is the average of '+votes+' evaluation(s) </span>');
+			  s.appendTo("#skill_legend");
+		      }
+		      
+		      
+		  });
+    }
+	
     angular.module("dataviz")
 	.controller("profileController", profileController)
 	.controller("loginController", loginController)
 	.controller("signupController", signupController)
         .controller("homeController", homeController)
+	.controller("evaluationController", evaluationController)
 	.controller("courseSearchController", courseSearchController)
+	.controller("coursesController", coursesController)
 	.directive("myFooter", myFooter)
         .directive("myHeader", myHeader)
 	.config(['$routeProvider',routingConfig])

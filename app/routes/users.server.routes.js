@@ -86,11 +86,12 @@ module.exports = function (app,passport) {
     //add course
     app.post('/profile/addSelectedCourses',isLoggedIn,User.addCourses);
     app.post('/addFeedBack',isLoggedIn,User.sendFeedback);
-
-    app.get('/courses/:course',isLoggedIn,function(req,res){
-        Course.showCoursePage(req,res);
+    
+    app.get('/courses/:course',function(req,res){
+	console.log("I am being called boi");
+	Course.showCoursePage(req,res);
     })
-    app.get('/courses/:course/info',isLoggedIn,function(req,res){
+     app.get('/courses/:course/info',isLoggedIn,function(req,res){
         Course.showCourseInfo(req,res);
     })
     // =====================================
