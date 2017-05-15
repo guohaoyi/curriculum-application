@@ -1,0 +1,38 @@
+<html>
+<title> Course Page</title>
+<h1><%= course %></h1>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+<script>
+        function generateButtons(json)
+        {
+            $.ajax({url: "/skillList", success: function(result){
+                console.log(result);
+                for(var i in result){
+                console.log(result[i].skill);}
+                $("#div1").html(result);
+
+            for (var i = 0; i < result.length ; i ++)
+            {
+            var radioButton = $('<div><input type ="checkbox" name="radioButton" id = "Skill' +(i+1)+'"> '+result[i].skill +' </div>') ;
+                console.log('<input type="radio" name="radioButton"> Skill ' + (i+1));
+                radioButton.appendTo("#skills");
+            }
+    }});
+            console.log("here");
+        }
+       
+    </script>
+<p> Course Description: Here's the description</p>
+<p> What skills are most important for this course?</p>
+<div id="skills"> </div>
+<button id="myButton"> Submit</button>
+<script>
+         $("#myButton").click(function(){
+            //console.log("here");
+        })
+        $.get('/skillList',function(data,status){
+            //console.log(data);
+        })
+        generateButtons();
+    </script>
+</html>

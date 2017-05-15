@@ -7,7 +7,6 @@ var config = require('./config'),
   session = require('express-session'),
   passport = require('passport'),
   flash    = require('connect-flash');
-
 require('./passport')(passport);
 
 module.exports = function(){
@@ -31,14 +30,14 @@ module.exports = function(){
         secret: config.sessionSecret
     }));
 
-    app.set('views', './app/views');
+    app.set('views', './public');
     app.set('view engine','ejs');
 
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
     
-    require('../app/routes/index.server.routes.js')(app);
+//    require('../app/routes/index.server.routes.js')(app);
     require('../app/routes/skills.server.routes.js')(app);
     require('../app/routes/general.server.routes.js')(app);
     require('../app/routes/users.server.routes.js')(app,passport);

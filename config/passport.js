@@ -24,8 +24,7 @@ module.exports = function (passport) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             User.exist(email, function (err, rows) {
-                console.log(rows);
-                console.log("above row object");
+                
                 if (err)
                     return done(err);
                 if (rows.length) {
@@ -56,6 +55,7 @@ module.exports = function (passport) {
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function(req,email,password,done){
+	console.log("I am trying to work");
         User.find(email,function(err,rows){
             if(rows == null)
             {

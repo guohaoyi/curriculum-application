@@ -1,6 +1,3 @@
-<!-- views/profile.ejs -->
-<!doctype html>
-<html>
 
   <% var title = "Your Profile"; %>
   <%- include partials/header.ejs %>
@@ -37,11 +34,45 @@
     }
     }
   </style>
-  <div class="wrapper" ng-app="userInfo" ng-controller="profileController" > 
+  <div class="wrapper" ng-app="dataviz" ng-controller="profileController" > 
     <div class="userInfo aside">
       <div class="well w3-closenav w3-right w3-xlarge">
 	<div id="userInfo" style="display: block;">
-	  <div ng-view></div>
+	  <h4>Select Terms You Want To See:</h4>
+<!--
+<h3>Courses:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  <a href="/courseSearch" class="btn btn-default btn-sm">Add</a>
+</h3>
+-->
+<style>
+.checks
+{
+display: inline-block;
+padding: 5px;
+}
+.checks span
+{
+text-align: center;
+}
+</style>
+<table>
+  <tr >
+    <div ng-repeat = "x in semesters" class = "checks"><input type="checkbox" ng-click = "filter()"><span>{{x}}</span></div>
+  </tr>
+  <br>
+ <button ng-click="restore()"> Show All Courses </button>
+</table>
+<table>
+  <td><b>Course Name</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Semester Taken</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Evaluation Link</b>&nbsp&nbsp&nbsp</td>
+  <td><b>Last Evaluated</b>&nbsp&nbsp&nbsp&nbsp</td>
+  <tr ng-repeat = "x in currentcourses">
+    <td><a ng-href="{{'/courses/'+x.course }}" ng-click = "saveCourse()">{{x.course}}</a>&nbsp&nbsp&nbsp</td>
+    <td>{{x.season + x.year}}&nbsp&nbsp&nbsp</td>
+    <td><a ng-href="{{'/course_feedback/'+x.course }}">evaluate</a>&nbsp&nbsp&nbsp</td>
+  </tr>
+</table>
 	</div>
       </div>
     </div>
@@ -67,4 +98,3 @@
   <script src="/lib/profile_script.js"></script>
   
   <%- include partials/footer.ejs %>
-</html>
