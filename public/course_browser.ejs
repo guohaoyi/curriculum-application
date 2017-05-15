@@ -32,11 +32,11 @@
 
 
 
-Search:
-<input type="search" class="search" data-column="all" placeholder="Search here"><sup class="results xsmall"></sup>
-<button type="button" class="reset btn btn-default">Reset</button>
+
+<!----Search: <input type="search" class="search" data-column="all" placeholder="Search here"><sup class="results xsmall"></sup>
+<button type="button" class="reset btn btn-default">Reset</button>-->
 <code id="show-filter"></code>
-<p> Instructions: Click on a row to add the course</P>
+<p> Instructions: Filter Courses by Name, Title, Department, Season and/or Year. </P>
 <!---<div class="dropdown">
 <button onclick="myFunction()" class="dropbtn">Dropdown</button>
   <div id="myDropdown" class="dropdown-content">
@@ -46,12 +46,13 @@ Search:
 <table id="myTable" class="tablesorter">
     <thead>
         <tr>
-            <th>Add</th>
-            <th>Course Name</th>
+            <th>Evaluate Course</th>
+            <th>View Course</th>
             <th>Course Title</th>
             <th>Department</th>
 	    <th>Season</th>
 	    <th>Year</th>
+
      </tr>
     </thead>
     
@@ -70,7 +71,9 @@ Search:
             $(document).ready(function() {
    
                 $("#myTable").append("<tbody>");
-                for(var i = 0;i<result.length;i++){
+                
+
+                  for(var i = 0;i<result.length;i++){
                     if(result[i].id){
 
                         var added = "<span class= 'label label-success'>Evaluated</span>"
@@ -243,7 +246,7 @@ Search:
 	      //be sure to react if there is a change in the future
               $(window).resize(function() 
               {
-	      console.log("width",$(this).width());
+	      <!--console.log("width",$(this).width());--->
 	      adjustStyle($(this).width());
 	      });
 	      });
