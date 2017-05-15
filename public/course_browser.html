@@ -1,11 +1,9 @@
-<!-- views/course.ejs -->
 <!doctype html>
 <html>
 <link rel="stylesheet" href="/css/theme.metro-dark.css"> 
 <link rel="stylesheet" href="/css/bootstrap.min.css"> 
-<% var title = "Course Browser"; %>
-<%- include partials/header.ejs %> 
-
+<script src="/lib/bootstrap.min.js"> </script>
+<my-header> </my-header>
 
 <!--
 <title> Course Browsing</title>
@@ -29,7 +27,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick = "addCourses()">Add</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addCourse()">Add</button>
       </div>
     </div>
 
@@ -39,11 +37,11 @@
 
 
 
-Search:
-<input type="search" class="search" data-column="all" placeholder="Search here"><sup class="results xsmall"></sup>
-<button type="button" class="reset btn btn-default">Reset</button>
+
+<!----Search: <input type="search" class="search" data-column="all" placeholder="Search here"><sup class="results xsmall"></sup>
+<button type="button" class="reset btn btn-default">Reset</button>-->
 <code id="show-filter"></code>
-<p> Instructions: Click on a row to add the course</P>
+<p> Instructions: Filter Courses by Name, Title, Department, Season and/or Year. </P>
 <!---<div class="dropdown">
 <button onclick="myFunction()" class="dropbtn">Dropdown</button>
   <div id="myDropdown" class="dropdown-content">
@@ -53,12 +51,13 @@ Search:
 <table id="myTable" class="tablesorter">
     <thead>
         <tr>
-            <th>Add</th>
-            <th>Course Name</th>
+            <th>Evaluate Course</th>
+            <th>View Course</th>
             <th>Course Title</th>
             <th>Department</th>
-	    <th>Season</th>
-	    <th>Year</th>
+	        <th>Season</th>
+		    <th>Year</th>
+
      </tr>
     </thead>
     
@@ -78,25 +77,27 @@ Search:
             $(document).ready(function() {
    
                 $("#myTable").append("<tbody>");
-                for(var i = 0;i<result.length;i++){
+                
+
+                  for(var i = 0;i<result.length;i++){
                     if(result[i].id){
 
                         var added = "<span class= 'label label-success'>Evaluated</span>"
                     }
                     else{
                          var added = "<span class='label label-primary'>Evaluate</span>" 
-			}
-
+				    }
+				    
                     var c = result[i].course_name;
-		    c.replace(/ /g,"%20");
+				        c.replace(/ /g,"%20");
                     $("#myTable").append(
                         "<tr id = '"+i+"'>\
-                            <td>"+added+"</td>\
-                            <td><a href = '/courses/"+c+"'>"+c+"</a></td>\
+                            <td class='clickClass'>"+added+"</td>\
+                            <td ng-click='hi' class='courseClass'><a>"+c+"</a></td>\
                             <td>"+result[i].course_title+"</td>\
                             <td>"+result[i].department+"</td>\
                             <td>"+result[i].term_season+"</td>\
-			    <td>"+result[i].term_year+"</td>\
+			        <td>"+result[i].term_year+"</td>\
     </tr>");
                     ajaxResult.push(result[i]);
                 }
@@ -122,9 +123,9 @@ Search:
                             <span id='d2'>Season</span><span class='caret'/>\
                         </button>\
                         <ul class='dropdown-menu'>\
-                            <li><a herf = '#'>Spring</a></li>\
-                            <li><a herf = '#'>Fall</a></li>\
-                            <li><a herf = '#'>Winter</a></li>\
+                            <li><a >Spring</a></li>\
+                            <li><a >Fall</a></li>\
+                            <li><a >Winter</a></li>\
                         </ul>\
                     </div>\
                 </div>"); 
@@ -135,7 +136,7 @@ Search:
                 for (var i = min; i<=max; i++){
                     var opt = document.createElement('li');
                     opt.value = i;
-                    opt.innerHTML = "<a href='#'>"+i+"</a>";
+                    opt.innerHTML = "<a>"+i+"</a>";
                     select[j].appendChild(opt);
                 }}
                 $(function(){
@@ -190,21 +191,21 @@ Search:
         console.log(selected);
         console.log(ajaxResult[selected[0]]);
         location.reload();
-	window.location.href = "/course_feedback/"+courseSelecting;
+					  window.location.href = "/course_feedback/"+courseSelecting;
     }
 
 
     $("#btn").click(function(){
         addCourses();
-            window.location.href = "/profile";
+            
     })
     generateTable();
 
-    $(function () {
+  $(function () {
 
-    $('table')
-        .on('click', 'tbody tr', function(){
+    $('table').on('click', 'tbody tr .clickClass',  function(){
             // closest finds the row, .eq(0) finds the first cell
+                                          console.log("I am here");
             var course = $(this).closest('tr').children().eq(1).text();
             courseSelecting = course;
             $('.modal-body p').text("I took "+ course +" in:");
@@ -212,11 +213,13 @@ Search:
         });
         /*.tablesorter({
             theme: 'blue'
-        });*/
-
+        });*/	
+$('table').on('click', 'tbody tr .courseClass', function()
+		{
+	var courseName = $(this).children()[0].innerText;
+	angular.element($(this)).scope().goCourse(courseName);
+})
 });
-
-
 
 </script>
 
@@ -246,27 +249,27 @@ Search:
   {
   width = parseInt(width);
   if (width < 600) 
-	      {
-	      $("#size-stylesheet").attr("href", "/css/mobile.css");
-	      } 
-	      else 
-	      {
-	      $("#size-stylesheet").attr("href", "/css/desktop.css");
-	      $("#myNav").show();
-	      }
-	      }
-	      
-	      $(function() 
+	            {
+	            $("#size-stylesheet").attr("href", "/css/mobile.css");
+	            } 
+	            else 
+	            {
+	            $("#size-stylesheet").attr("href", "/css/desktop.css");
+	            $("#myNav").show();
+	            }
+	            }
+	            
+	            $(function() 
               {
-	      adjustStyle($(this).width());
-	      //be sure to react if there is a change in the future
+	            adjustStyle($(this).width());
+	            //be sure to react if there is a change in the future
               $(window).resize(function() 
               {
-	      console.log("width",$(this).width());
-	      adjustStyle($(this).width());
-	      });
-	      });
-	      </script>
+	            <!--console.log("width",$(this).width());--->
+		          adjustStyle($(this).width());
+		          });
+		          });
+		          </script>
 
 
 

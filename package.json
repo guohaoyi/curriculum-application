@@ -2,6 +2,12 @@
   "name": "dataViz",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "test": "karma start",
+    "backTest": "mocha -u bdd -R spec -t 500 --recursive",
+    "webdriver": "webdriver-manager start",
+    "protractor": "protractor conf.js"
+  },
   "dependencies": {
     "async": "~2.1.2",
     "bcrypt": "~0.8.7",
@@ -19,8 +25,13 @@
     "passport": "~0.2.1",
     "passport-local": "~1.0.0"
   },
- "devDependencies": {
- "should": "~4.0.4",
- "supertest": "~0.13.0"
- }
+  "devDependencies": {
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-ng-html2js-preprocessor": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "should": "~4.0.4",
+    "supertest": "~0.13.0"
+  }
 }
