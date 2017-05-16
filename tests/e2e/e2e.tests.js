@@ -40,15 +40,17 @@ describe('Curriculum App E2E Tests:', function() {
 	    expect(browser.getCurrentUrl()).toEqual(baseURL+'profile');
 	});
 	it('Should be able to go to a course page', function() {
+	    /*
 	    browser.get(baseURL+'profile');
 	    browser.ignoreSynchronization = true;
+	    */
 	    element.all(by.css('a[ng-click="gotoCourse(x)"]')).first().click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'courses/CSC%20117%20%20%20%20%20');
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'courses/AAS%20210%20%20%20%20%20');
 	});
 	it('Should be able to go to a evaluation page', function() {
 	    browser.get(baseURL+'profile');
 	    element.all(by.css('a[ng-click="goCourse(x)"]')).first().click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'course_feedback/CSC%20117%20%20%20%20%20');
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'course_feedback/AAS%20210%20%20%20%20%20');
 	});
     });
     describe('Evaluation Page', function() {
