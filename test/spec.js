@@ -1,5 +1,5 @@
-//process.env.NODE_ENV = "testing"                                                                                                      
-process.env.PORT = 3696;                                                                                                                
+process.env.UseDatabse = "dataVizTesting"                                                                                                      
+process.env.PORT = 3696;                                                                                              var db = require('../config/db');                    
                                                                                                                                         
 var chai = require('chai');                                                                                                           
 var expect = chai.expect;                                                                                                               
@@ -29,7 +29,9 @@ var testing_User = function() {
                                                                                                                                         
                                                                                                                                         
     ];                                                                                                                                  
-    };                                                                                                                                  
+    };                                                                                                               var clear = function() {
+        db.get().query("TRUNCATE TABLE user");
+}
                                                                                                                                         
 
                                                                                                                                         
@@ -79,7 +81,7 @@ it('responds to /signup', function isLoggedIn(done) {
                 });                                                                                                                            
     }                                                                                                                                     
     testing_User().forEach(getUser); 
-    
+//    clear()
            });                                                                                                                              
                     
 
@@ -277,7 +279,7 @@ it(' /courseSearch should find courses and Redirect', function (done) {
  });
 })                                                                                                                   
 
-
+clear();
 
 
     
