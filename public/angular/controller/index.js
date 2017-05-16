@@ -130,7 +130,7 @@
     }
     var loginController = function($scope, courseServices, $location)
     {
-	console.log(courseServices);
+	
 	$scope.goSignup = function()
 	{
 	    $location.path("/signup");
@@ -147,7 +147,7 @@
 		.then(
 		    function(message)
 		      {
-			  console.log("I am actually getting here");
+		
 			  if (message.data.message == "successful")
 			      {
 				  $location.path("/profile");
@@ -480,6 +480,10 @@ ll2').val() == null));
 	$scope.goSearch = function()
 	{
 	    $location.path("/courseSearch");
+	}
+	$scope.goHome = function()
+	{
+	    $location.path("/");
 	}
     }
     var coursesController = function($scope, courseServices, $http, $location)
