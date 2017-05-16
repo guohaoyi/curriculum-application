@@ -7,7 +7,7 @@
 
   "scripts": {
     "test": "karma start",
-    "backTest": "mocha -u bdd -R spec -t 500 --recursive",
+    "backtest": "mocha -u bdd -R spec -t 500 --recursive",
     "webdriver": "webdriver-manager start",
     "protractor": "protractor conf.js"
   },

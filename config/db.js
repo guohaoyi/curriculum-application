@@ -21,8 +21,8 @@ exports.connect = function(mode, done) {
     user: 'dataviz',
     password: 'Dj7Q3',
    // database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : TEST_DB
-   //database: PRODUCTION_DB
-    database: BETEST_DB 
+   database: PRODUCTION_DB
+   // database: BETEST_DB 
   })
 
   state.mode = mode
