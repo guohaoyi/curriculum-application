@@ -5,7 +5,7 @@ var mysql = require('mysql')
 
 var PRODUCTION_DB = 'datavizProduction';
 var  TEST_DB = 'datavizProduction'
-
+var BETEST_DB='dataVizTesting'
 
 exports.MODE_TEST = 'mode_test'
 exports.MODE_PRODUCTION = 'mode_production'
@@ -21,7 +21,8 @@ exports.connect = function(mode, done) {
     user: 'dataviz',
     password: 'Dj7Q3',
    // database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : TEST_DB
-   database: PRODUCTION_DB
+   //database: PRODUCTION_DB
+    database: BETEST_DB 
   })
 
   state.mode = mode

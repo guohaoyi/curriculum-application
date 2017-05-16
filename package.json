@@ -2,8 +2,13 @@
   "name": "dataViz",
   "version": "0.0.0",
   "private": true,
+  "scripts":{
+"backtest":"mocha -u bdd -R spec -t 500 --recursive" 
+
+},
   "dependencies": {
-    "async": "~2.1.2",
+
+      "async": "~2.1.2",
     "bcrypt": "~0.8.7",
     "body-parser": "~1.8.4",
     "compression": "~1.6.2",
@@ -19,7 +24,11 @@
     "passport": "~0.2.1",
     "passport-local": "~1.0.0"
   },
+ 
  "devDependencies": {
+ "chai": "^3.5.0",                                           
+ "chai-as-promised": "^6.0.0",                               
+ "chai-http": "^3.0.0", 
  "should": "~4.0.4",
  "supertest": "~0.13.0"
  }
