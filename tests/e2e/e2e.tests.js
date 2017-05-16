@@ -1,6 +1,7 @@
 describe('Curriculum App E2E Tests:', function() {
-    var baseURL = 'http://turing:3333/';
+    var baseURL = 'http://turing:3333/#!/';
     describe('Home Page', function() {
+	/*
 	it('Should be able to go to the signup page', function() {
 	    browser.get(baseURL);
 	    browser.ignoreSynchronization = true;
@@ -8,39 +9,46 @@ describe('Curriculum App E2E Tests:', function() {
 	    expect(browser.getCurrentUrl()).toEqual(baseURL+'signup');
 	});
 	it('Should be able to go back to the home page', function() {
-	    element(by.css('a[href="/"]')).click();
+	    element(by.css('a[ng-click="goHome()"]')).click();
 	    expect(browser.getCurrentUrl()).toEqual(baseURL);
 	});
+	*/
 	it('Should be able to go to the login page', function() {
+	    browser.get(baseURL);
 	    element.all(by.css('a.btn.btn-default')).first().click();
 	    expect(browser.getCurrentUrl()).toEqual(baseURL+'login');
 	});
 	it('Should be able to login with the test account', function() {
 	    element(by.name('email')).sendKeys('t@t.t');
 	    element(by.css('input[type=password]')).sendKeys('t');
-	    element(by.css('button[type=submit]')).click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'profile#/');
+	    element(by.css('button[ng-click="loginButton()"]')).click();
+	    browser.driver.wait(function() {
+		return browser.driver.getCurrentUrl().then(function(url) {
+		    return (/profile/).test(url);
+		})
+	    });
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'profile');
 	});
     });
     describe('Profile Page', function() {
 	it('Should be able to go to the course search page', function() {
-	    element.all(by.css('a.btn.btn-default.btn-large')).first().click();
+	    element.all(by.css('ul.nav.nav-pills li')).first().click();
 	    expect(browser.getCurrentUrl()).toEqual(baseURL+'courseSearch');
 	});
 	it('Should be able to go to the profile page', function() {
-	    element.all(by.css('a.btn.btn-default.btn-large')).get(1).click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'profile#/');
+	    element.all(by.css('ul.nav.nav-pills li')).get(1).click();
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'profile');
 	});
 	it('Should be able to go to a course page', function() {
 	    browser.get(baseURL+'profile');
 	    browser.ignoreSynchronization = true;
-	    element(by.css('a[href="/courses/HUM 110     "]')).click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'courses/HUM%20110');
+	    element.all(by.css('a[ng-click="gotoCourse(x)"]')).first().click();
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'courses/CSC%20117%20%20%20%20%20');
 	});
 	it('Should be able to go to a evaluation page', function() {
 	    browser.get(baseURL+'profile');
-	    element(by.css('a[href="/course_feedback/HUM 110     "]')).click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'course_feedback/HUM%20110');
+	    element.all(by.css('a[ng-click="goCourse(x)"]')).first().click();
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'course_feedback/CSC%20117%20%20%20%20%20');
 	});
     });
     describe('Evaluation Page', function() {
@@ -71,7 +79,7 @@ describe('Curriculum App E2E Tests:', function() {
 	    element.all(by.cssContainingText('option','Critical Thinking')).get(2).click();
 	    element(by.css('input#score2')).click();
 	    element(by.css('button#myButton')).click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL);
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'profile');
 	});
     });
     describe('Course Search Page', function() {
@@ -82,10 +90,10 @@ describe('Curriculum App E2E Tests:', function() {
 	    expect(element.all(by.css('tbody tr')).first().isDisplayed()).toBeTruthy();
 	});
 	it('Should be able to click to add a course', function() {
-	    element.all(by.css('tbody tr')).first().click();
+	    element.all(by.css('td.clickClass')).first().click();
 	    var elem = element(by.css('div#myModal'));
 	    var until = protractor.ExpectedConditions;
-	    browser.wait(until.presenceOf(elem),5000,'Element taking too long to appear');
+	    browser.wait(until.presenceOf(elem),10000,'Element taking too long to appear');
 	    expect(elem.isDisplayed()).toBeTruthy();
 	});
 	it('Should be able to add a course', function() {
@@ -94,7 +102,7 @@ describe('Curriculum App E2E Tests:', function() {
 	    element.all(by.css('button.btn.btn-default.dropdown-toggle.time-btn')).get(1).click();
 	    element.all(by.css('div.dropdown.open ul.dropdown-menu li')).get(1).click();
 	    element(by.css('button.btn.btn-primary')).click();
-	    expect(browser.getCurrentUrl()).toEqual(baseURL+'course_feedback/AMS%20110');
+	    expect(browser.getCurrentUrl()).toEqual(baseURL+'course_feedback/AMS%20110%20%20%20%20%20');
 	});
     });
 });
