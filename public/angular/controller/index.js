@@ -1,6 +1,5 @@
 (function()
 {
-    console.log("I am here. I am executing");
     angular.module("dataviz", ["ngRoute"]);
 	   var routingConfig = function($routeProvider)
     {
@@ -184,6 +183,8 @@
 			  }
 			  else
 			  {
+			      $('#alert').html("Invalid Information");
+			      $('#alert').show();
 			      $location.path("/signup");
 			  }
 		      })
@@ -191,10 +192,10 @@
     }
     
     var profileController = function($scope, courseServices, $http, $location) {
-	console.log("At the profile page");
+	
 	courseServices.profilePage();
 	$scope.name = "Your Profile"
-	console.log($location.url());
+
 	$scope.goSearch = function()
 	{
 	    $location.path("/courseSearch");
