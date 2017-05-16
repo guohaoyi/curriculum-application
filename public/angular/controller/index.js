@@ -1,6 +1,5 @@
 (function()
 {
-    console.log("I am here. I am executing");
     angular.module("dataviz", ["ngRoute"]);
 	   var routingConfig = function($routeProvider)
     {
@@ -28,7 +27,7 @@
                   })
 	    .when("/courseSearch",
                   {
-                      templateUrl:"course_browser.ejs",
+                      templateUrl:"course_browser.html",
                       controller:"courseSearchController"
                   })
 	    .when("/course_feedback/:course",
@@ -184,6 +183,8 @@
 			  }
 			  else
 			  {
+			      $('#alert').html("Invalid Information");
+			      $('#alert').show();
 			      $location.path("/signup");
 			  }
 		      })
@@ -191,10 +192,10 @@
     }
     
     var profileController = function($scope, courseServices, $http, $location) {
-	console.log("At the profile page");
+	
 	courseServices.profilePage();
 	$scope.name = "Your Profile"
-	console.log($location.url());
+
 	$scope.goSearch = function()
 	{
 	    $location.path("/courseSearch");
@@ -394,7 +395,7 @@
 	var courseSearchController = function($scope, courseServices, $http, $location)
 	{
 	    $scope.name = "Course Browser";
-	    console.log(courseServices.studentCourseList());
+	    ;
 	    $scope.goSearch = function()
             {
             $location.path("/courseSearch");
@@ -407,6 +408,29 @@
             {
             $location.path("/");
         }
+	    $scope.goCourse = function(name)
+	    {
+		
+		$location.path("/courses/"+name);
+		$scope.$apply();
+	    }
+	    $scope.addCourse = function()
+	    {
+		  var time = [];
+	console.log($('.tine-btn:first-child'));
+        $('.time-btn:first-child').each(function(){
+            
+            console.log($(this).text());
+            time.push($(this).text());
+        })
+        var selected = [{course_name:courseSelecting,
+            year:time[0],
+            season:time[1]}]
+		console.log(selected);
+		$.post("/profile/addSelectedCourses",{data:selected});
+		$location.path("/course_feedback/"+courseSelecting);
+
+	    }
 	    
 	}
     var evaluationController = function($scope, courseServices, $http, $location)
@@ -445,9 +469,17 @@ ll2').val() == null));
 
           $.post("/addFeedBack",{data:allArray,course: $scope.name});
           //window.location.href = "/courses/<%= course %>";
-                      window.history.back();
+                      $location.path("/profile");
                       
    }
+	}
+	$scope.goProfile = function()
+	{
+	    $location.path("/profile");
+	}
+	$scope.goSearch = function()
+	{
+	    $location.path("/courseSearch");
 	}
     }
     var coursesController = function($scope, courseServices, $http, $location)

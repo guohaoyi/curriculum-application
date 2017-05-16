@@ -29,7 +29,8 @@ module.exports = function (passport) {
                     return done(err);
                 if (rows.length) {
                     return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-                } else {
+                } 
+		else {
                     //if no user with that email
                     var newUserMysql = new Object();
 
